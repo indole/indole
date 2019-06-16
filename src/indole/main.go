@@ -10,13 +10,6 @@ import (
 	"os/signal"
 )
 
-const (
-	managernetwork = "tcp"
-	manageraddress = "0.0.0.0:3024"
-	tonetwork      = "tcp"
-	toaddress      = "127.0.0.1:8118"
-)
-
 func main() {
 	channel := make(chan os.Signal, 1)
 	signal.Notify(channel, os.Interrupt)
