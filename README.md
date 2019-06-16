@@ -36,6 +36,24 @@ run the binary built and input the configuration (`xml` format) via `stdin`
 ./indole < cfg/config.xml
 ```
 
+## Example Usage
+
+### ServerSide Config
+
+```xml
+<indole>
+    <tcpaess src_network="tcp" src_address="<YOUR SERVER LISTEN ADDR AND PORT>" dst_network="tcp" dst_address="<YOUR LOCAL PROXY ADDR AND PORT ON SERVER>" buf_size="4194304" hex_key="<YOUR AES KEY>" limit="65536"/>
+</indole>
+```
+
+### ClientSide Config
+
+```xml
+<indole>
+    <tcpaesc src_network="tcp" src_address="<YOUR LOCAL PORT>" dst_network="tcp" dst_address="<YOUR SERVER ADDRESS AND PORT>" buf_size="4194304" hex_key="<YOUR AES KEY>" limit="65536"/>
+</indole>
+```
+
 # Configuration
 
 INDOLE configuration is in `xml` format.
