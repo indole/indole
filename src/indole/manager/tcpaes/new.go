@@ -15,6 +15,7 @@ func New(listener net.Listener, network, address string, bufsize int, hexkey str
 		bufsize:  bufsize,
 		hexkey:   hexkey,
 		limit:    limit,
+		server:   server,
 	}
 }
 
@@ -23,7 +24,7 @@ func NewByArgs(args *Args) manager.Manager {
 	log.Println("manager", "toy", "NewByArgs", args)
 	listener, err := net.Listen(args.SrcNetwork, args.SrcAddress)
 	if err != nil {
-		log.Fatalln("manager", "toy", "NewByArgs", "net.Listen(args.SrcNetwork, args.SrcAddress)", err)
+		log.Fatalln("manager", "tcpaes", "NewByArgs", "net.Listen(args.SrcNetwork, args.SrcAddress)", err)
 	}
 	return New(listener, args.DstNetwork, args.DstAddress, args.BufSize, args.HexKey, args.Limit, args.Server)
 }
