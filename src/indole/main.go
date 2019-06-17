@@ -2,8 +2,7 @@ package main
 
 import (
 	"encoding/xml"
-	"indole/manager/tcpaesc"
-	"indole/manager/tcpaess"
+	"indole/manager/tcpaes"
 	"indole/manager/toy"
 	"log"
 	"os"
@@ -18,12 +17,8 @@ func main() {
 		manager := toy.NewByArgs(v)
 		go manager.Run()
 	}
-	for _, v := range config.TCPAESC {
-		manager := tcpaesc.NewByArgs(v)
-		go manager.Run()
-	}
-	for _, v := range config.TCPAESS {
-		manager := tcpaess.NewByArgs(v)
+	for _, v := range config.TCPAES {
+		manager := tcpaes.NewByArgs(v)
 		go manager.Run()
 	}
 
@@ -33,9 +28,8 @@ func main() {
 }
 
 var config = &struct {
-	Toy     []*toy.Args     `xml:"toy"`
-	TCPAESC []*tcpaesc.Args `xml:"tcpaesc"`
-	TCPAESS []*tcpaess.Args `xml:"tcpaess"`
+	Toy    []*toy.Args    `xml:"toy"`
+	TCPAES []*tcpaes.Args `xml:"tcpaes"`
 }{}
 
 func init() {

@@ -42,7 +42,7 @@ run the binary built and input the configuration (`xml` format) via `stdin`
 
 ```xml
 <indole>
-    <tcpaess src_network="tcp" src_address="<YOUR SERVER LISTEN ADDR AND PORT>" dst_network="tcp" dst_address="<YOUR LOCAL PROXY ADDR AND PORT ON SERVER>" buf_size="4194304" hex_key="<YOUR AES KEY>" limit="65536"/>
+    <tcpaes src_network="tcp" src_address="<YOUR SERVER LISTEN ADDR AND PORT>" dst_network="tcp" dst_address="<YOUR LOCAL PROXY ADDR AND PORT ON SERVER>" buf_size="4194304" hex_key="<YOUR AES KEY>" limit="65536" server="true"/>
 </indole>
 ```
 
@@ -50,7 +50,7 @@ run the binary built and input the configuration (`xml` format) via `stdin`
 
 ```xml
 <indole>
-    <tcpaesc src_network="tcp" src_address="<YOUR LOCAL PORT>" dst_network="tcp" dst_address="<YOUR SERVER ADDRESS AND PORT>" buf_size="4194304" hex_key="<YOUR AES KEY>" limit="65536"/>
+    <tcpaes src_network="tcp" src_address="<YOUR LOCAL PORT>" dst_network="tcp" dst_address="<YOUR SERVER ADDRESS AND PORT>" buf_size="4194304" hex_key="<YOUR AES KEY>" limit="65536"/>
 </indole>
 ```
 

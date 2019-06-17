@@ -1,4 +1,4 @@
-package tcpaesc
+package tcpaes
 
 import (
 	"indole/manager"
@@ -7,8 +7,8 @@ import (
 )
 
 // New ...
-func New(listener net.Listener, network, address string, bufsize int, hexkey string, limit uint64) manager.Manager {
-	return &TCPAESC{
+func New(listener net.Listener, network, address string, bufsize int, hexkey string, limit uint64, server bool) manager.Manager {
+	return &TCPAES{
 		listener: listener,
 		network:  network,
 		address:  address,
@@ -25,7 +25,7 @@ func NewByArgs(args *Args) manager.Manager {
 	if err != nil {
 		log.Fatalln("manager", "toy", "NewByArgs", "net.Listen(args.SrcNetwork, args.SrcAddress)", err)
 	}
-	return New(listener, args.DstNetwork, args.DstAddress, args.BufSize, args.HexKey, args.Limit)
+	return New(listener, args.DstNetwork, args.DstAddress, args.BufSize, args.HexKey, args.Limit, args.Server)
 }
 
 // Args ...
@@ -37,4 +37,5 @@ type Args struct {
 	BufSize    int    `xml:"buf_size,attr"`
 	HexKey     string `xml:"hex_key,attr"`
 	Limit      uint64 `xml:"limit,attr"`
+	Server     bool   `xml:"server,attr"`
 }

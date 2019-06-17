@@ -1,4 +1,4 @@
-package tcpaesc
+package tcpaes
 
 import (
 	"indole/core"
@@ -9,18 +9,19 @@ import (
 	"net"
 )
 
-// TCPAESC ...
-type TCPAESC struct {
+// TCPAES ...
+type TCPAES struct {
 	listener net.Listener
 	network  string
 	address  string
 	bufsize  int
 	hexkey   string
 	limit    uint64
+	server   bool
 }
 
 // Run ...
-func (thisptr *TCPAESC) Run() {
+func (thisptr *TCPAES) Run() {
 	for {
 		conn, err := thisptr.listener.Accept()
 		if err != nil {
@@ -36,6 +37,10 @@ func (thisptr *TCPAESC) Run() {
 			d := aesdec.NewBySizeHexKeyLimit(thisptr.bufsize, thisptr.hexkey, thisptr.limit)
 			defer d.Close()
 			c := make(chan struct{}, 4)
+
+			if thisptr.server {
+				e, d = d, e
+			}
 
 			go core.Core(x, e, thisptr.bufsize, c)
 			go core.Core(e, y, thisptr.bufsize, c)
