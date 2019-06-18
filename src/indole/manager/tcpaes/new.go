@@ -5,6 +5,7 @@ import (
 	"indole/plugin/aesdec"
 	"indole/plugin/aesenc"
 	"indole/plugin/tcp"
+	"io"
 	"log"
 	"net"
 )
@@ -18,21 +19,36 @@ func NewByArgs(args *Args) manager.Manager {
 	}
 	return &TCPAES{
 		listener: listener,
-		server:   args.Server,
 		bufsize:  args.BufSize,
-		AESENC:   args.AESENC,
-		AESDEC:   args.AESDEC,
+		encode:   args.Encode.extract(),
+		decode:   args.Decode.extract(),
 		TCP:      args.TCP,
 	}
 }
 
 // Args ...
 type Args struct {
-	Network string       `xml:"network,attr"`
-	Address string       `xml:"address,attr"`
-	Server  bool         `xml:"server,attr"`
-	BufSize int          `xml:"bufsize,attr"`
-	AESENC  *aesenc.Args `xml:"aesenc"`
-	AESDEC  *aesdec.Args `xml:"aesdec"`
-	TCP     *tcp.Args    `xml:"tcp"`
+	Network string    `xml:"network,attr"`
+	Address string    `xml:"address,attr"`
+	BufSize int       `xml:"bufsize,attr"`
+	Encode  coder     `xml:"encode"`
+	Decode  coder     `xml:"decode"`
+	TCP     *tcp.Args `xml:"tcp"`
+}
+
+type coder struct {
+	AESENC []*aesenc.Args `xml:"aesenc"`
+	AESDEC []*aesdec.Args `xml:"aesdec"`
+}
+
+func (thisptr *coder) extract() func() (ret []io.ReadWriteCloser) {
+	return func() (ret []io.ReadWriteCloser) {
+		for _, v := range thisptr.AESENC {
+			ret = append(ret, aesenc.New(v))
+		}
+		for _, v := range thisptr.AESDEC {
+			ret = append(ret, aesdec.New(v))
+		}
+		return
+	}
 }

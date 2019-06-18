@@ -2,9 +2,8 @@ package tcpaes
 
 import (
 	"indole/core"
-	"indole/plugin/aesdec"
-	"indole/plugin/aesenc"
 	"indole/plugin/tcp"
+	"io"
 	"log"
 	"net"
 )
@@ -12,10 +11,10 @@ import (
 // TCPAES ...
 type TCPAES struct {
 	listener net.Listener
-	server   bool
 	bufsize  int
-	AESENC   *aesenc.Args
-	AESDEC   *aesdec.Args
+	encode   func() []io.ReadWriteCloser
+	decode   func() []io.ReadWriteCloser
+	core     func(x io.ReadWriteCloser)
 	TCP      *tcp.Args
 }
 
@@ -31,20 +30,36 @@ func (thisptr *TCPAES) Run() {
 			defer x.Close()
 			y := tcp.New(thisptr.TCP)
 			defer y.Close()
-			e := aesenc.New(thisptr.AESENC)
-			defer e.Close()
-			d := aesdec.New(thisptr.AESDEC)
-			defer d.Close()
-			c := make(chan struct{}, 4)
+			e := thisptr.encode()
+			defer func() {
+				for _, v := range e {
+					v.Close()
+				}
+			}()
+			d := thisptr.decode()
+			defer func() {
+				for _, v := range d {
+					v.Close()
+				}
+			}()
+			c := make(chan struct{}, len(e)+len(d)+2)
 
-			if thisptr.server {
-				e, d = d, e
+			{
+				w := x
+				for _, v := range e {
+					go core.Core(w, v, thisptr.bufsize, c)
+					w = v
+				}
+				go core.Core(w, y, thisptr.bufsize, c)
 			}
-
-			go core.Core(x, e, thisptr.bufsize, c)
-			go core.Core(e, y, thisptr.bufsize, c)
-			go core.Core(y, d, thisptr.bufsize, c)
-			go core.Core(d, x, thisptr.bufsize, c)
+			{
+				w := x
+				for _, v := range d {
+					go core.Core(v, w, thisptr.bufsize, c)
+					w = v
+				}
+				go core.Core(y, w, thisptr.bufsize, c)
+			}
 
 			select {
 			case <-c:
