@@ -11,7 +11,8 @@ func New(args *Args) io.ReadWriteCloser {
 	log.Println("plugin", "tcp", "New", args)
 	conn, err := net.Dial(args.Network, args.Address)
 	if err != nil {
-		log.Fatalln("plugin", "tcp", "New", "net.Dial(netowrk, address)", err)
+		log.Println("plugin", "tcp", "New", "net.Dial(netowrk, address)", err)
+		return nil
 	}
 	return &TCP{
 		conn: conn,

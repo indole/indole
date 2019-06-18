@@ -12,7 +12,8 @@ func New(args *Args) io.ReadWriteCloser {
 	log.Println("plugin", "aesenc", "New", args)
 	key, err := hex.DecodeString(args.HexKey)
 	if err != nil {
-		log.Fatalln("plugin", "aesenc", "New", err)
+		log.Println("plugin", "aesenc", "New", err)
+		return nil
 	}
 	return &AESENC{
 		queue:  make(chan []byte, args.QueueSize),

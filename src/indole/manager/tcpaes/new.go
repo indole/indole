@@ -16,7 +16,8 @@ func NewByArgs(args *Args) manager.Manager {
 	log.Println("manager", "tcpaes", "NewByArgs", args)
 	listener, err := net.Listen(args.Network, args.Address)
 	if err != nil {
-		log.Fatalln("manager", "tcpaes", "NewByArgs", "net.Listen(args.SrcNetwork, args.SrcAddress)", err)
+		log.Println("manager", "tcpaes", "NewByArgs", "net.Listen(args.SrcNetwork, args.SrcAddress)", err)
+		return nil
 	}
 	return &TCPAES{
 		listener: listener,

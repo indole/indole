@@ -12,7 +12,8 @@ func New(args *Args) io.ReadWriteCloser {
 	log.Println("plugin", "aesdec", "New", args)
 	key, err := hex.DecodeString(args.HexKey)
 	if err != nil {
-		log.Fatalln("plugin", "aesenc", "NewBySizeHexKey", err)
+		log.Println("plugin", "aesenc", "NewBySizeHexKey", err)
+		return nil
 	}
 	r, w := io.Pipe()
 	return &AESDEC{
