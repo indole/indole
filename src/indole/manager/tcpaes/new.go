@@ -4,6 +4,7 @@ import (
 	"indole/manager"
 	"indole/plugin/aesdec"
 	"indole/plugin/aesenc"
+	"indole/plugin/plain"
 	"indole/plugin/tcp"
 	"io"
 	"log"
@@ -39,6 +40,7 @@ type Args struct {
 type coder struct {
 	AESENC []*aesenc.Args `xml:"aesenc"`
 	AESDEC []*aesdec.Args `xml:"aesdec"`
+	PLAIN  []*plain.Args  `xml:"plain"`
 }
 
 func (thisptr *coder) extract() func() (ret []io.ReadWriteCloser) {
@@ -48,6 +50,9 @@ func (thisptr *coder) extract() func() (ret []io.ReadWriteCloser) {
 		}
 		for _, v := range thisptr.AESDEC {
 			ret = append(ret, aesdec.New(v))
+		}
+		for _, v := range thisptr.PLAIN {
+			ret = append(ret, plain.New(v))
 		}
 		return
 	}

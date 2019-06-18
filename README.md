@@ -81,21 +81,29 @@ Here is an example:
 ```xml
 <indole>
     <toy src_network="tcp" src_address="0.0.0.0:3000" dst_network="tcp" dst_address="localhost:8118" buf_size="1024"/>
-    <tcpaes network="tcp" address="0.0.0.0:3024" bufsize="1024">
+    <tcpaes network="tcp" address="0.0.0.0:3000" bufsize="1024">
         <encode>
-            <aesdec queue_size="1024" hex_key="ffffffffffffffffffffffffffffffff" buf_size="65536"/>
+            <plain queue_size="1024"/>
         </encode>
         <decode>
-            <aesenc queue_size="1024" hex_key="ffffffffffffffffffffffffffffffff"/>
+        </decode>
+        <tcp network="tcp" address="localhost:8118"/>
+    </tcpaes>
+    <tcpaes network="tcp" address="0.0.0.0:3024" bufsize="1024">
+        <encode>
+            <aesdec queue_size="1024" hex_key="6368616e67652ffde4e9732070617373" buf_size="65536"/>
+        </encode>
+        <decode>
+            <aesenc queue_size="1024" hex_key="6368616e67652ffde4e9732070617373"/>
         </decode>
         <tcp network="tcp" address="localhost:3000"/>
     </tcpaes>
     <tcpaes network="tcp" address="0.0.0.0:3025" bufsize="1024">
         <encode>
-            <aesenc queue_size="1024" hex_key="ffffffffffffffffffffffffffffffff"/>
+            <aesenc queue_size="1024" hex_key="6368616e67652ffde4e9732070617373"/>
         </encode>
         <decode>
-            <aesdec queue_size="1024" hex_key="ffffffffffffffffffffffffffffffff" buf_size="65536"/>
+            <aesdec queue_size="1024" hex_key="6368616e67652ffde4e9732070617373" buf_size="65536"/>
         </decode>
         <tcp network="tcp" address="localhost:3024"/>
     </tcpaes>

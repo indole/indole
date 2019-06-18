@@ -5,13 +5,13 @@ import (
 )
 
 // New ...
-func New(queue chan []byte) io.ReadWriteCloser {
+func New(args *Args) io.ReadWriteCloser {
 	return &PLAIN{
-		queue: queue,
+		queue: make(chan []byte, args.QueueSize),
 	}
 }
 
-// NewBySize ...
-func NewBySize(size int) io.ReadWriteCloser {
-	return New(make(chan []byte, size))
+// Args ...
+type Args struct {
+	QueueSize int `xml:"queue_size,attr"`
 }
