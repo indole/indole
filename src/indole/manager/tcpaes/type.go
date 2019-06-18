@@ -34,7 +34,7 @@ func (thisptr *TCPAES) Run() {
 			defer y.Close()
 			e := aesenc.NewBySizeHexKey(thisptr.bufsize, thisptr.hexkey)
 			defer e.Close()
-			d := aesdec.NewBySizeHexKeyLimit(thisptr.bufsize, thisptr.hexkey, thisptr.limit)
+			d := aesdec.NewBySizeHexKeyLimit(int(thisptr.limit), thisptr.hexkey)
 			defer d.Close()
 			c := make(chan struct{}, 4)
 
