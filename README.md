@@ -42,7 +42,11 @@ run the binary built and input the configuration (`xml` format) via `stdin`
 
 ```xml
 <indole>
-    <tcpaes src_network="tcp" src_address="<YOUR SERVER LISTEN ADDR AND PORT>" dst_network="tcp" dst_address="<YOUR LOCAL PROXY ADDR AND PORT ON SERVER>" buf_size="4194304" hex_key="<YOUR AES KEY>" limit="65536" server="true"/>
+    <tcpaes network="tcp" address="0.0.0.0:<PORT>" bufsize="1024" server="true">
+        <aesenc queue_size="1024" hex_key="<YOUR AES KEY>"/>
+        <aesdec queue_size="1024" hex_key="<YOUR AES KEY>" buf_size="65536"/>
+        <tcp network="tcp" address="<YOUR LOCAL ADDRESS AND PORT>"/>
+    </tcpaes>
 </indole>
 ```
 
@@ -50,7 +54,11 @@ run the binary built and input the configuration (`xml` format) via `stdin`
 
 ```xml
 <indole>
-    <tcpaes src_network="tcp" src_address="<YOUR LOCAL PORT>" dst_network="tcp" dst_address="<YOUR SERVER ADDRESS AND PORT>" buf_size="4194304" hex_key="<YOUR AES KEY>" limit="65536"/>
+    <tcpaes network="tcp" address="<YOUR LOCAL ADDRESS AND PORT>" bufsize="1024">
+        <aesenc queue_size="1024" hex_key="<YOUR AES KEY>"/>
+        <aesdec queue_size="1024" hex_key="<YOUR AES KEY>" buf_size="65536"/>
+        <tcp network="tcp" address="<THE SERVER ADDRESS AND PORT>"/>
+    </tcpaes>
 </indole>
 ```
 
@@ -64,7 +72,17 @@ Here is an example:
 
 ```xml
 <indole>
-    <toy src_network="tcp" src_address="0.0.0.0:3024" dst_network="tcp" dst_address="localhost:8118" buf_size="1024"/>
+    <toy src_network="tcp" src_address="0.0.0.0:3000" dst_network="tcp" dst_address="localhost:8118" buf_size="1024"/>
+    <tcpaes network="tcp" address="0.0.0.0:3024" bufsize="1024" server="true">
+        <aesenc queue_size="1024" hex_key="6ffffffffffffffffffffffffffff373"/>
+        <aesdec queue_size="1024" hex_key="6ffffffffffffffffffffffffffff373" buf_size="65536"/>
+        <tcp network="tcp" address="localhost:3000"/>
+    </tcpaes>
+    <tcpaes network="tcp" address="0.0.0.0:3025" bufsize="1024">
+        <aesenc queue_size="1024" hex_key="6ffffffffffffffffffffffffffff373"/>
+        <aesdec queue_size="1024" hex_key="6ffffffffffffffffffffffffffff373" buf_size="65536"/>
+        <tcp network="tcp" address="localhost:3024"/>
+    </tcpaes>
 </indole>
 ```
 
