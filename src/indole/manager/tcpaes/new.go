@@ -2,41 +2,37 @@ package tcpaes
 
 import (
 	"indole/manager"
+	"indole/plugin/aesdec"
+	"indole/plugin/aesenc"
+	"indole/plugin/tcp"
 	"log"
 	"net"
 )
 
-// New ...
-func New(listener net.Listener, network, address string, bufsize int, hexkey string, limit uint64, server bool) manager.Manager {
-	return &TCPAES{
-		listener: listener,
-		network:  network,
-		address:  address,
-		bufsize:  bufsize,
-		hexkey:   hexkey,
-		limit:    limit,
-		server:   server,
-	}
-}
-
 // NewByArgs ...
 func NewByArgs(args *Args) manager.Manager {
-	log.Println("manager", "toy", "NewByArgs", args)
-	listener, err := net.Listen(args.SrcNetwork, args.SrcAddress)
+	log.Println("manager", "tcpaes", "NewByArgs", args)
+	listener, err := net.Listen(args.Network, args.Address)
 	if err != nil {
 		log.Fatalln("manager", "tcpaes", "NewByArgs", "net.Listen(args.SrcNetwork, args.SrcAddress)", err)
 	}
-	return New(listener, args.DstNetwork, args.DstAddress, args.BufSize, args.HexKey, args.Limit, args.Server)
+	return &TCPAES{
+		listener: listener,
+		server:   args.Server,
+		bufsize:  args.BufSize,
+		AESENC:   args.AESENC,
+		AESDEC:   args.AESDEC,
+		TCP:      args.TCP,
+	}
 }
 
 // Args ...
 type Args struct {
-	SrcNetwork string `xml:"src_network,attr"`
-	SrcAddress string `xml:"src_address,attr"`
-	DstNetwork string `xml:"dst_network,attr"`
-	DstAddress string `xml:"dst_address,attr"`
-	BufSize    int    `xml:"buf_size,attr"`
-	HexKey     string `xml:"hex_key,attr"`
-	Limit      uint64 `xml:"limit,attr"`
-	Server     bool   `xml:"server,attr"`
+	Network string       `xml:"network,attr"`
+	Address string       `xml:"address,attr"`
+	Server  bool         `xml:"server,attr"`
+	BufSize int          `xml:"bufsize,attr"`
+	AESENC  *aesenc.Args `xml:"aesenc"`
+	AESDEC  *aesdec.Args `xml:"aesdec"`
+	TCP     *tcp.Args    `xml:"tcp"`
 }

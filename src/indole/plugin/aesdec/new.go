@@ -8,23 +8,27 @@ import (
 )
 
 // New ...
-func New(queue chan []byte, key []byte, r *io.PipeReader, w *io.PipeWriter, buffer []byte, bytesbuffer *bytes.Buffer) io.ReadWriteCloser {
-	return &AESDEC{
-		queue:  queue,
-		key:    key,
-		r:      r,
-		w:      w,
-		buf:    buffer,
-		buffer: bytesbuffer,
-	}
-}
-
-// NewBySizeHexKeyLimit ...
-func NewBySizeHexKeyLimit(size int, hexkey string) io.ReadWriteCloser {
-	key, err := hex.DecodeString(hexkey)
+func New(args *Args) io.ReadWriteCloser {
+	log.Println("plugin", "aesdec", "New", args)
+	key, err := hex.DecodeString(args.HexKey)
 	if err != nil {
 		log.Fatalln("plugin", "aesenc", "NewBySizeHexKey", err)
 	}
 	r, w := io.Pipe()
-	return New(make(chan []byte, size), key, r, w, make([]byte, size), bytes.NewBuffer(make([]byte, 0)))
+	return &AESDEC{
+		queue:  make(chan []byte, args.QueueSize),
+		key:    key,
+		r:      r,
+		w:      w,
+		buf:    make([]byte, args.BufSize),
+		buffer: bytes.NewBuffer(make([]byte, args.BufferInitSize)),
+	}
+}
+
+// Args ...
+type Args struct {
+	QueueSize      int    `xml:"queue_size,attr"`
+	HexKey         string `xml:"hex_key,attr"`
+	BufSize        int    `xml:"buf_size,attr"`
+	BufferInitSize int    `xml:"buffer_init_size,attr"`
 }

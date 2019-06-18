@@ -12,12 +12,11 @@ import (
 // TCPAES ...
 type TCPAES struct {
 	listener net.Listener
-	network  string
-	address  string
-	bufsize  int
-	hexkey   string
-	limit    uint64
 	server   bool
+	bufsize  int
+	AESENC   *aesenc.Args
+	AESDEC   *aesdec.Args
+	TCP      *tcp.Args
 }
 
 // Run ...
@@ -28,13 +27,13 @@ func (thisptr *TCPAES) Run() {
 			log.Println(err)
 		}
 		go func() {
-			x := tcp.New(conn)
+			x := tcp.NewByConn(conn)
 			defer x.Close()
-			y := tcp.NewByDial(thisptr.network, thisptr.address)
+			y := tcp.New(thisptr.TCP)
 			defer y.Close()
-			e := aesenc.NewBySizeHexKey(thisptr.bufsize, thisptr.hexkey)
+			e := aesenc.New(thisptr.AESENC)
 			defer e.Close()
-			d := aesdec.NewBySizeHexKeyLimit(int(thisptr.limit), thisptr.hexkey)
+			d := aesdec.New(thisptr.AESDEC)
 			defer d.Close()
 			c := make(chan struct{}, 4)
 

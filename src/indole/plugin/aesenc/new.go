@@ -8,19 +8,22 @@ import (
 )
 
 // New ...
-func New(queue chan []byte, key []byte, buffer *bytes.Buffer) io.ReadWriteCloser {
+func New(args *Args) io.ReadWriteCloser {
+	log.Println("plugin", "aesenc", "New", args)
+	key, err := hex.DecodeString(args.HexKey)
+	if err != nil {
+		log.Fatalln("plugin", "aesenc", "New", err)
+	}
 	return &AESENC{
-		queue:  queue,
+		queue:  make(chan []byte, args.QueueSize),
 		key:    key,
-		buffer: buffer,
+		buffer: bytes.NewBuffer(make([]byte, args.BufferInitSize)),
 	}
 }
 
-// NewBySizeHexKey ...
-func NewBySizeHexKey(size int, hexkey string) io.ReadWriteCloser {
-	key, err := hex.DecodeString(hexkey)
-	if err != nil {
-		log.Fatalln("plugin", "aesenc", "NewBySizeHexKey", err)
-	}
-	return New(make(chan []byte, size), key, bytes.NewBuffer(make([]byte, 0)))
+// Args ...
+type Args struct {
+	QueueSize      int    `xml:"queue_size,attr"`
+	HexKey         string `xml:"hex_key,attr"`
+	BufferInitSize int    `xml:"buffer_init_size,attr"`
 }

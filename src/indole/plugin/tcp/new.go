@@ -7,17 +7,26 @@ import (
 )
 
 // New ...
-func New(conn net.Conn) io.ReadWriteCloser {
+func New(args *Args) io.ReadWriteCloser {
+	log.Println("plugin", "tcp", "New", args)
+	conn, err := net.Dial(args.Network, args.Address)
+	if err != nil {
+		log.Fatalln("plugin", "tcp", "New", "net.Dial(netowrk, address)", err)
+	}
 	return &TCP{
 		conn: conn,
 	}
 }
 
-// NewByDial ...
-func NewByDial(netowrk, address string) io.ReadWriteCloser {
-	conn, err := net.Dial(netowrk, address)
-	if err != nil {
-		log.Fatalln("vertex", "tcp", "NewByDial", "net.Dial(netowrk, address)", err)
+// Args ...
+type Args struct {
+	Network string `xml:"network,attr"`
+	Address string `xml:"address,attr"`
+}
+
+// NewByConn ...
+func NewByConn(conn net.Conn) io.ReadWriteCloser {
+	return &TCP{
+		conn: conn,
 	}
-	return New(conn)
 }

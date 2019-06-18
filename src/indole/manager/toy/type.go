@@ -24,9 +24,12 @@ func (thisptr *Toy) Run() {
 			log.Println(err)
 		}
 		go func() {
-			x := tcp.New(conn)
+			x := tcp.NewByConn(conn)
 			defer x.Close()
-			y := tcp.NewByDial(thisptr.network, thisptr.address)
+			y := tcp.New(&tcp.Args{
+				Network: thisptr.network,
+				Address: thisptr.address,
+			})
 			defer y.Close()
 			e := plain.NewBySize(thisptr.bufsize)
 			defer e.Close()
