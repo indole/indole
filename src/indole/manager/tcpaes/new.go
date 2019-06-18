@@ -13,10 +13,10 @@ import (
 
 // NewByArgs ...
 func NewByArgs(args *Args) manager.Manager {
-	log.Println("manager", "tcpaes", "NewByArgs", args)
+	log.Println("[manager]", "[tcpaes]", "[New]", "args:", args)
 	listener, err := net.Listen(args.Network, args.Address)
 	if err != nil {
-		log.Println("manager", "tcpaes", "NewByArgs", "net.Listen(args.SrcNetwork, args.SrcAddress)", err)
+		log.Println("[manager]", "[tcpaes]", "[New]", "err:", err)
 		return nil
 	}
 	return &TCPAES{

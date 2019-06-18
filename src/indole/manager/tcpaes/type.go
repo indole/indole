@@ -23,12 +23,14 @@ func (thisptr *TCPAES) Run() {
 	for {
 		conn, err := thisptr.listener.Accept()
 		if err != nil {
-			log.Println(err)
+			log.Println("[manager]", "[tcpaes]", "[Run]", "err:", err)
+			return
 		}
 		go func() {
 			defer func() {
 				recover()
 			}()
+
 			x := tcp.NewByConn(conn)
 			defer x.Close()
 			y := tcp.New(thisptr.TCP)
@@ -67,7 +69,6 @@ func (thisptr *TCPAES) Run() {
 			select {
 			case <-c:
 			}
-			log.Println("manager", "toy", "Run", "DONE")
 		}()
 	}
 }

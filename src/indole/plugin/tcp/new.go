@@ -8,10 +8,9 @@ import (
 
 // New ...
 func New(args *Args) io.ReadWriteCloser {
-	log.Println("plugin", "tcp", "New", args)
 	conn, err := net.Dial(args.Network, args.Address)
 	if err != nil {
-		log.Println("plugin", "tcp", "New", "net.Dial(netowrk, address)", err)
+		log.Println("[plugin]", "[tcp]", "[New]", "err:", err)
 		return nil
 	}
 	return &TCP{

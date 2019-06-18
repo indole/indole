@@ -9,10 +9,9 @@ import (
 
 // New ...
 func New(args *Args) io.ReadWriteCloser {
-	log.Println("plugin", "aesdec", "New", args)
 	key, err := hex.DecodeString(args.HexKey)
 	if err != nil {
-		log.Println("plugin", "aesenc", "NewBySizeHexKey", err)
+		log.Println("[plugin]", "[aesdec]", "[New]", "err:", err)
 		return nil
 	}
 	r, w := io.Pipe()
