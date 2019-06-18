@@ -42,10 +42,14 @@ run the binary built and input the configuration (`xml` format) via `stdin`
 
 ```xml
 <indole>
-    <tcpaes network="tcp" address="0.0.0.0:<PORT>" bufsize="1024" server="true">
-        <aesenc queue_size="1024" hex_key="<YOUR AES KEY>"/>
-        <aesdec queue_size="1024" hex_key="<YOUR AES KEY>" buf_size="65536"/>
-        <tcp network="tcp" address="<YOUR LOCAL ADDRESS AND PORT>"/>
+    <tcpaes network="tcp" address="0.0.0.0:<PORT>" bufsize="1024">
+        <encode>
+            <aesdec queue_size="1024" hex_key="<YOUR AES KEY>" buf_size="65536"/>
+        </encode>
+        <decode>
+            <aesenc queue_size="1024" hex_key="<YOUR AES KEY>"/>
+        </decode>
+        <tcp network="tcp" address="<YOUR LOCAL ADDRESS AND PORT ON SERVER>"/>
     </tcpaes>
 </indole>
 ```
@@ -55,8 +59,12 @@ run the binary built and input the configuration (`xml` format) via `stdin`
 ```xml
 <indole>
     <tcpaes network="tcp" address="<YOUR LOCAL ADDRESS AND PORT>" bufsize="1024">
-        <aesenc queue_size="1024" hex_key="<YOUR AES KEY>"/>
-        <aesdec queue_size="1024" hex_key="<YOUR AES KEY>" buf_size="65536"/>
+        <encode>
+            <aesenc queue_size="1024" hex_key="<YOUR AES KEY>"/>
+        </encode>
+        <decode>
+            <aesdec queue_size="1024" hex_key="<YOUR AES KEY>" buf_size="65536"/>
+        </decode>
         <tcp network="tcp" address="<THE SERVER ADDRESS AND PORT>"/>
     </tcpaes>
 </indole>
@@ -73,14 +81,22 @@ Here is an example:
 ```xml
 <indole>
     <toy src_network="tcp" src_address="0.0.0.0:3000" dst_network="tcp" dst_address="localhost:8118" buf_size="1024"/>
-    <tcpaes network="tcp" address="0.0.0.0:3024" bufsize="1024" server="true">
-        <aesenc queue_size="1024" hex_key="6ffffffffffffffffffffffffffff373"/>
-        <aesdec queue_size="1024" hex_key="6ffffffffffffffffffffffffffff373" buf_size="65536"/>
+    <tcpaes network="tcp" address="0.0.0.0:3024" bufsize="1024">
+        <encode>
+            <aesdec queue_size="1024" hex_key="ffffffffffffffffffffffffffffffff" buf_size="65536"/>
+        </encode>
+        <decode>
+            <aesenc queue_size="1024" hex_key="ffffffffffffffffffffffffffffffff"/>
+        </decode>
         <tcp network="tcp" address="localhost:3000"/>
     </tcpaes>
     <tcpaes network="tcp" address="0.0.0.0:3025" bufsize="1024">
-        <aesenc queue_size="1024" hex_key="6ffffffffffffffffffffffffffff373"/>
-        <aesdec queue_size="1024" hex_key="6ffffffffffffffffffffffffffff373" buf_size="65536"/>
+        <encode>
+            <aesenc queue_size="1024" hex_key="ffffffffffffffffffffffffffffffff"/>
+        </encode>
+        <decode>
+            <aesdec queue_size="1024" hex_key="ffffffffffffffffffffffffffffffff" buf_size="65536"/>
+        </decode>
         <tcp network="tcp" address="localhost:3024"/>
     </tcpaes>
 </indole>
