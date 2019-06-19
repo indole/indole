@@ -2,41 +2,94 @@
 
 INDOLE is a data transfer tool focus on privacy protection on Internet
 
-# Attention
+THE PRINCIPLE of INDOLE is:
 
-INDOLE is Academic. **NEVER USE IT IN PRODUCTION**
+    an open framework for data transfer with fully customized protocol by end user.
 
-**COMMERCIAL USE IS NOT PERMITTED**
+# Usage
 
-**DISTRIBUTION IS NOT PERMITTED**
-
-# Requirements
+## Requirements
 
 1. [gcc](https://gcc.gnu.org/)
 2. [golang](https://golang.org/)
 
-> Using golang is a temporary decision. Welcome new impls especially `rust`, `scheme`, `java`, `c++`
+> golang is a temporary decision. Welcome new impls especially `rust`, `scheme`, `java`, `c++`
 
-# Build
+## Build
 
-1. set `GOPATH` root directory of this project
-   ```sh
-   export GOPATH=$(pwd)
-   ```
-2. build
-   ```sh
-   go build
-   ```
-
-# Deploy & Run
-
-run the binary built and input the configuration (`xml` format) via `stdin`
-
+```sh
+env GOPATH=$(pwd) go build indole
 ```
+
+## Run
+
+run `indole` and input the configuration (`xml` format) via `stdin`
+
+```sh
 ./indole < cfg/config.xml
 ```
 
-## Example Usage
+## Deploy
+
+The following tools are recommended for deploy
+
+1. [supervisor](http://supervisord.org/)
+2. [docker](https://www.docker.com/)
+
+# Tutotial
+
+start INDOLE
+
+```sh
+./indole
+```
+
+Then input the xml configuration.
+
+The following of this section will show how the configuration works
+
+## INDOLE Configure Schema
+
+The root node of INDOLE config is `indole`.
+
+```xml
+<indole>
+</indole>
+```
+
+The child nodes of `indole` node should be a manager config. Managers manage the plugins, and organize them to work properly.
+
+## TCPAES Manager
+
+TCPAES manager create a tcp tunnel for data transfer.
+
+The attributes of  `tcpaes` node are:
+
+1. `network`: The network to listen. Known networks are "tcp", "tcp4" (IPv4-only), "tcp6" (IPv6-only), "udp", "udp4" (IPv4-only), "udp6" (IPv6-only), "ip", "ip4" (IPv4-only), "ip6" (IPv6-only), "unix", "unixgram" and "unixpacket". But only `tcp*` network works because this manager works on tcp.
+2. `address`: The address to listen.
+3. `bufsize`: The read/write bufsize for core using. If it is too small, the performance would be bad. If it is too large, the memory would be uesd a lot, even crash. It is depend on your QPS and system memory.
+
+The child notes of `tcpaes` are:
+
+1. one `encode` node with some of the following child nodes
+   1. `aesenc`: aes encrypt with the following attrbutes
+      1. `queue_size`: the buf queue size
+      2. `hex_key`: the aes key hex encoded
+   2. `aesdec`: aes decrypt with the following attrbutes
+      1. `queue_size`: the buf queue size
+      2. `hex_key`: the aes key hex encoded
+      3. `buf_size`: the buf_size, it is recommend a little larger than the `bufsize` of `tcpaes` depended on the encode method you use.
+   3. `plain`: only copy no encrypt or decrypt
+2. one `decode` node with child notes same as `encode` node
+3. one `tcp` node with the following attributes
+   1. `network`: the network to redirect
+   2. `address`: the address to redirect
+
+## Server / Client
+
+Here is an example for server and client data transfer.
+
+Note that the `bufsize` and `buf_size` should be optimized
 
 ### ServerSide Config
 
@@ -69,131 +122,3 @@ run the binary built and input the configuration (`xml` format) via `stdin`
     </tcpaes>
 </indole>
 ```
-
-# Configuration
-
-INDOLE configuration is in `xml` format.
-
-> For personal reasons, I prefer xml rather than json. Never change the config to json format
-
-Here is an example:
-
-```xml
-<indole>
-    <toy src_network="tcp" src_address="0.0.0.0:3000" dst_network="tcp" dst_address="localhost:8118" buf_size="1024"/>
-    <tcpaes network="tcp" address="0.0.0.0:3000" bufsize="1024">
-        <encode>
-            <plain queue_size="1024"/>
-        </encode>
-        <decode>
-        </decode>
-        <tcp network="tcp" address="localhost:8118"/>
-    </tcpaes>
-    <tcpaes network="tcp" address="0.0.0.0:3024" bufsize="1024">
-        <encode>
-            <aesdec queue_size="1024" hex_key="6368616e67652ffde4e9732070617373" buf_size="65536"/>
-        </encode>
-        <decode>
-            <aesenc queue_size="1024" hex_key="6368616e67652ffde4e9732070617373"/>
-        </decode>
-        <tcp network="tcp" address="localhost:3000"/>
-    </tcpaes>
-    <tcpaes network="tcp" address="0.0.0.0:3025" bufsize="1024">
-        <encode>
-            <aesenc queue_size="1024" hex_key="6368616e67652ffde4e9732070617373"/>
-        </encode>
-        <decode>
-            <aesdec queue_size="1024" hex_key="6368616e67652ffde4e9732070617373" buf_size="65536"/>
-        </decode>
-        <tcp network="tcp" address="localhost:3024"/>
-    </tcpaes>
-</indole>
-```
-
-# Design of INDOLE
-
-```mermaid
-graph LR
-    INDOLE --> MANAGER
-    MANAGER --> CORE
-    MANAGER --> PLUGIN
-```
-
-## INDOLE
-
-The main function of INDOLE, parsing configurations and call managers.
-
-## Manager
-
-Manage Plugins and call Core to running the data transfer process
-
-## Core
-
-INDOLE CORE is very simple, only including a pair of I/O function
-
-## Plugin
-
-You can use plugins to perform data, route, hooking, encrypt ...
-
-Plugins can be connected like
-
-```mermaid
-graph LR
-    A[TCP Server]
-    B[En/De-cryption]
-    C[HTTP Content Service]
-    A-->B
-    B-->C
-    C-->B
-    B-->A
-```
-
-or
-
-```mermaid
-graph LR
-    A[Plugin Boardcast]
-    B[Plugin TUN 1]
-    C[Plugin TUN 2]
-    A-->B
-    A-->C
-    C-->A
-    B-->A
-```
-
-or any structure you want by the manager
-
-The framework is light weighted enough and the plugins can be customized.
-
-You can customize the network message structure free.
-
-> it is lack of authorization plugin/design currently, so use this tool carefully or behind a firewall
-
-> the mobile version (java/kotlin/swift) is not completed
-
-> the dynamic key - aes encryption is not completed, since some updates. Welcome new encrption plugins
-
-### udp
-
-an udp plugin
-
-### tun
-
-an tun/tap plugin
-
-### tcp
-
-an tcp plugin
-
-### plain
-
-an `lambda x.x` encryption
-
-### aesenc
-
-aes encrypt plugin
-
-### aesdec
-
-aes decrypt plugin
-
