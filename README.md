@@ -85,6 +85,20 @@ The child notes of `tcpaes` are:
    1. `network`: the network to redirect
    2. `address`: the address to redirect
 
+```xml
+<indole>
+    <tcpaes network="tcp" address="0.0.0.0:3023" bufsize="2048">
+        <encode>
+            <aesenc queue_size="1024" hex_key="ffffffffffffffffffffffffffffffff"/>
+        </encode>
+        <decode>
+            <aesdec queue_size="1024" hex_key="ffffffffffffffffffffffffffffffff" buf_size="4096"/>
+        </decode>
+        <tcp network="tcp" address="localhost:8118"/>
+    </tcpaes>
+</indole>
+```
+
 ## Server / Client
 
 Here is an example for server and client data transfer.
