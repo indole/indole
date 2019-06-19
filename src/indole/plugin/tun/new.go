@@ -12,33 +12,40 @@ import (
 )
 
 // New ...
-func New(config map[string]interface{}) io.ReadWriteCloser {
-	log.Println("vertex", "tun", "new", "New", config)
-	dev := config["dev"].(string)
-	cdev := C.CString(dev)
+func New(args *Args) io.ReadWriteCloser {
+	cdev := C.CString(args.Device)
 	defer C.free(unsafe.Pointer(cdev))
 	tunfd := C.tun_alloc(cdev)
-	dev = C.GoString(cdev)
+	dev := C.GoString(cdev)
+
 	if tunfd < 0 {
-		log.Fatalln("vertex", "tun", "new", "New", "C.tun_alloc(cdev)")
+		log.Println("plugin", "tun", "New", "C.tun_alloc(cdev)")
+		return nil
 	}
 
-	for _, v := range config["exec"].([]interface{}) {
-		err := exec.Command("sh", "-c", v.(string)).Run()
+	for _, v := range args.Exec {
+		err := exec.Command("sh", "-c", v).Run()
 		if err != nil {
-			log.Fatalln("vertex", "tun", "new", "New", v, err)
+			log.Println("plugin", "tun", "New", v, err)
 		}
 	}
 
 	return &TUN{
 		file: os.NewFile(uintptr(tunfd), dev),
 		exit: func() {
-			for _, v := range config["exit"].([]interface{}) {
-				err := exec.Command("sh", "-c", v.(string)).Run()
+			for _, v := range args.Exit {
+				err := exec.Command("sh", "-c", v).Run()
 				if err != nil {
-					log.Fatalln("vertex", "tun", "new", "New", v, err)
+					log.Println("plugin", "tun", "New", v, err)
 				}
 			}
 		},
 	}
+}
+
+// Args ...
+type Args struct {
+	Device string   `xml:"device,attr"`
+	Exec   []string `xml:"exec>command"`
+	Exit   []string `xml:"exit>command"`
 }

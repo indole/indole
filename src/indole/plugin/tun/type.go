@@ -1,7 +1,6 @@
 package tun
 
 import (
-	"log"
 	"os"
 )
 
@@ -14,7 +13,6 @@ type TUN struct {
 // Close ...
 func (thisptr *TUN) Close() error {
 	defer thisptr.exit()
-	log.Println("vertex", "tun", "type", "Close")
 	return thisptr.file.Close()
 }
 

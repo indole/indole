@@ -3,8 +3,7 @@
 #include <stdlib.h>
 int tun_alloc(char* dev) {
   perror("tun/tap is not support on windows");
-  exit(-1);
-  return 0;
+  return -1;
 }
 #endif
 
