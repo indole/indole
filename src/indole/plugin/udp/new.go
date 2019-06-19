@@ -8,24 +8,19 @@ import (
 )
 
 // New ...
-func New(config map[string]interface{}) io.ReadWriteCloser {
-	addr, err := net.ResolveUDPAddr(config["network"].(string), config["address"].(string))
+func New(args *Args) io.ReadWriteCloser {
+	addr, err := net.ResolveUDPAddr(args.Network, args.Address)
 	if err != nil {
-		log.Println("vertex", "udp", "new", "New", "net.ResolveUDPAddr", err)
+		log.Println("plugin", "udp", "New", err)
+		return nil
 	}
 
-	conn, err := net.ListenUDP(config["network"].(string), addr)
+	conn, err := net.ListenUDP(args.Network, addr)
 	if err != nil {
 		log.Println("vertex", "udp", "new", "New", "net.ListenUDP", err)
 	}
 	var rmt *net.UDPAddr
-	if config["remote"] != nil {
-		addr, err := net.ResolveUDPAddr("udp", config["remote"].(string))
-		if err != nil {
-			log.Println("vertex", "udp", "new", "New", "net.ResolveUDPAddr", err)
-		}
-		rmt = addr
-	}
+
 	var remote atomic.Value
 	ret := &UDP{
 		conn:   conn,
@@ -33,4 +28,10 @@ func New(config map[string]interface{}) io.ReadWriteCloser {
 	}
 	ret.remote.Store(rmt)
 	return ret
+}
+
+// Args ...
+type Args struct {
+	Network string `xml:"network,attr"`
+	Address string `xml:"address,attr"`
 }
