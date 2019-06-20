@@ -21,12 +21,25 @@ THE PRINCIPLE of INDOLE is:
 env GOPATH=$(pwd) go build indole
 ```
 
+For windows (`pwershell`) users:
+
+```powershell
+$env:GOPATH = (gi .)
+go build indole
+```
+
 ## Run
 
 run `indole` and input the configuration (`xml` format) via `stdin`
 
 ```sh
 ./indole < cfg/config.xml
+```
+
+For windows (`pwershell`) users:
+
+```powershell
+cat cfg/config.xml | .\indole.exe
 ```
 
 ## Deploy
