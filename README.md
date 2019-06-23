@@ -6,6 +6,12 @@ THE PRINCIPLE of INDOLE is:
 
     an open framework for data transfer with fully customized protocol by end user.
 
+If you want to use INDOLE logo, build it by [open babel](http://openbabel.org). For example:
+
+```sh
+obabel indole.sdf -O indole.png -d --title ""
+```
+
 # Usage
 
 ## Requirements
