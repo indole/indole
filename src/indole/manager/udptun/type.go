@@ -8,14 +8,14 @@ import (
 
 // UDPTUN ...
 type UDPTUN struct {
+	udp *udp.Args
+	tun *tun.Args
+	mtu int
 }
 
 // Run ...
 func (thisptr *UDPTUN) Run() {
-	x := udp.Build(&udp.Args{
-		Network: "udp",
-		Address: ":54345",
-	})
+	x := udp.Build(thisptr.udp)
 	y := tun.Build(&tun.Args{
 		Device: "tun0",
 		Exec: []string{
@@ -32,8 +32,8 @@ func (thisptr *UDPTUN) Run() {
 	})
 	c := make(chan struct{}, 2)
 
-	go core.Core(x, y, 1400, c)
-	go core.Core(y, x, 1400, c)
+	go core.Core(x, y, thisptr.mtu, c)
+	go core.Core(y, x, thisptr.mtu, c)
 
 	select {
 	case <-c:
