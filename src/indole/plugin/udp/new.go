@@ -7,8 +7,8 @@ import (
 	"sync/atomic"
 )
 
-// New ...
-func New(args *Args) io.ReadWriteCloser {
+// Build ...
+func Build(args *Args) io.ReadWriteCloser {
 	addr, err := net.ResolveUDPAddr(args.Network, args.Address)
 	if err != nil {
 		log.Println("plugin", "udp", "New", err)

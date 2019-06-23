@@ -6,8 +6,8 @@ import (
 	"net"
 )
 
-// New ...
-func New(args *Args) io.ReadWriteCloser {
+// Build ...
+func Build(args *Args) io.ReadWriteCloser {
 	conn, err := net.Dial(args.Network, args.Address)
 	if err != nil {
 		log.Println("[plugin]", "[tcp]", "[New]", "err:", err)
@@ -24,8 +24,8 @@ type Args struct {
 	Address string `xml:"address,attr"`
 }
 
-// NewByConn ...
-func NewByConn(conn net.Conn) io.ReadWriteCloser {
+// New ...
+func New(conn net.Conn) io.ReadWriteCloser {
 	return &TCP{
 		conn: conn,
 	}

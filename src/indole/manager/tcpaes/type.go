@@ -31,9 +31,9 @@ func (thisptr *TCPAES) Run() {
 				recover()
 			}()
 
-			x := tcp.NewByConn(conn)
+			x := tcp.New(conn)
 			defer x.Close()
-			y := tcp.New(thisptr.TCP)
+			y := tcp.Build(thisptr.TCP)
 			defer y.Close()
 			e := thisptr.encode()
 			defer func() {

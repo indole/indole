@@ -11,8 +11,8 @@ import (
 	"unsafe"
 )
 
-// New ...
-func New(args *Args) io.ReadWriteCloser {
+// Build ...
+func Build(args *Args) io.ReadWriteCloser {
 	cdev := C.CString(args.Device)
 	defer C.free(unsafe.Pointer(cdev))
 	tunfd := C.tun_alloc(cdev)

@@ -7,8 +7,8 @@ import (
 	"log"
 )
 
-// New ...
-func New(args *Args) io.ReadWriteCloser {
+// Build ...
+func Build(args *Args) io.ReadWriteCloser {
 	key, err := hex.DecodeString(args.HexKey)
 	if err != nil {
 		log.Println("[plugin]", "[aesenc]", "[New]", "err:", err)

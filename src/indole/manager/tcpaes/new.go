@@ -11,8 +11,8 @@ import (
 	"net"
 )
 
-// NewByArgs ...
-func NewByArgs(args *Args) manager.Manager {
+// Build ...
+func Build(args *Args) manager.Manager {
 	log.Println("[manager]", "[tcpaes]", "[New]", "args:", args)
 	listener, err := net.Listen(args.Network, args.Address)
 	if err != nil {
@@ -47,13 +47,13 @@ type coder struct {
 func (thisptr *coder) extract() func() (ret []io.ReadWriteCloser) {
 	return func() (ret []io.ReadWriteCloser) {
 		for _, v := range thisptr.AESENC {
-			ret = append(ret, aesenc.New(v))
+			ret = append(ret, aesenc.Build(v))
 		}
 		for _, v := range thisptr.AESDEC {
-			ret = append(ret, aesdec.New(v))
+			ret = append(ret, aesdec.Build(v))
 		}
 		for _, v := range thisptr.PLAIN {
-			ret = append(ret, plain.New(v))
+			ret = append(ret, plain.Build(v))
 		}
 		return
 	}

@@ -13,7 +13,7 @@ func main() {
 	signal.Notify(channel, os.Interrupt)
 
 	for _, v := range config.TCPAES {
-		manager := tcpaes.NewByArgs(v)
+		manager := tcpaes.Build(v)
 		go manager.Run()
 	}
 

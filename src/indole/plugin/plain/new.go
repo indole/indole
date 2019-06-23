@@ -4,8 +4,8 @@ import (
 	"io"
 )
 
-// New ...
-func New(args *Args) io.ReadWriteCloser {
+// Build ...
+func Build(args *Args) io.ReadWriteCloser {
 	return &PLAIN{
 		queue: make(chan []byte, args.QueueSize),
 	}
