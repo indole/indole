@@ -7,7 +7,6 @@ import (
 	"io"
 	"log"
 	"os"
-	"os/exec"
 	"unsafe"
 )
 
@@ -23,29 +22,10 @@ func Build(args *Args) io.ReadWriteCloser {
 		return nil
 	}
 
-	for _, v := range args.Exec {
-		err := exec.Command("sh", "-c", v).Run()
-		if err != nil {
-			log.Println("plugin", "tun", "New", v, err)
-		}
-	}
-
-	return &TUN{
-		file: os.NewFile(uintptr(tunfd), dev),
-		exit: func() {
-			for _, v := range args.Exit {
-				err := exec.Command("sh", "-c", v).Run()
-				if err != nil {
-					log.Println("plugin", "tun", "New", v, err)
-				}
-			}
-		},
-	}
+	return &TUN{os.NewFile(uintptr(tunfd), dev)}
 }
 
 // Args ...
 type Args struct {
-	Device string   `xml:"device,attr"`
-	Exec   []string `xml:"exec>command"`
-	Exit   []string `xml:"exit>command"`
+	Device string `xml:"device,attr"`
 }

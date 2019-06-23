@@ -13,9 +13,7 @@ func Build(args *Args) io.ReadWriteCloser {
 		log.Println("[plugin]", "[tcp]", "[New]", "err:", err)
 		return nil
 	}
-	return &TCP{
-		conn: conn,
-	}
+	return &TCP{conn}
 }
 
 // Args ...
@@ -26,7 +24,5 @@ type Args struct {
 
 // New ...
 func New(conn net.Conn) io.ReadWriteCloser {
-	return &TCP{
-		conn: conn,
-	}
+	return &TCP{conn}
 }
