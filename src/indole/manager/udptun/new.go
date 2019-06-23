@@ -19,5 +19,5 @@ func Build(args *Args) manager.Manager {
 type Args struct {
 	UDP *udp.Args `xml:"udp"`
 	TUN *tun.Args `xml:"tun"`
-	MTU int       `xml:"tun,attr"`
+	MTU int       `xml:"mtu,attr"`
 }
