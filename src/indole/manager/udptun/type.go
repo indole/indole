@@ -16,9 +16,7 @@ type UDPTUN struct {
 // Run ...
 func (thisptr *UDPTUN) Run() {
 	x := udp.Build(thisptr.udp)
-	y := tun.Build(&tun.Args{
-		Device: "tun0",
-	})
+	y := tun.Build(thisptr.tun)
 	c := make(chan struct{}, 2)
 
 	go core.Core(x, y, thisptr.mtu, c)
