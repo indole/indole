@@ -3,7 +3,6 @@ package main
 import (
 	"io/ioutil"
 	"log"
-	"os"
 	"os/exec"
 	"syscall"
 
@@ -114,7 +113,7 @@ func clean() {
 	defer func() {
 		recover()
 	}()
-	cmd.Process.Signal(os.Interrupt)
+	cmd.Process.Kill()
 	cmd.Process.Wait()
 	cmd = nil
 }
