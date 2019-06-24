@@ -1,10 +1,9 @@
 package main
 
 import (
-	"io/ioutil"
+	"flag"
 	"log"
 	"os/exec"
-	"syscall"
 
 	"github.com/lxn/walk"
 )
@@ -44,14 +43,16 @@ func main() {
 	actions := []*walk.Action{
 		register("Open System Proxy", func() {
 			exec.Command("reg", "add", "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings", "/v", "ProxyEnable", "/t", "REG_DWORD", "/d", "1", "/f").Run()
+			exec.Command("reg", "add", "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings", "/v", "ProxyServer", "/t", "REG_SZ", "/d", proxy, "/f").Run()
 		}),
 		register("Close System Proxy", func() {
 			exec.Command("reg", "add", "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings", "/v", "ProxyEnable", "/t", "REG_DWORD", "/d", "0", "/f").Run()
 		}),
 		register("Windole Setting", func() {
-
+			ni.ShowInfo("Windole", "TODO")
 		}),
 		register("Exit Windole", func() {
+			exec.Command("reg", "add", "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings", "/v", "ProxyEnable", "/t", "REG_DWORD", "/d", "0", "/f").Run()
 			clean()
 			walk.App().Exit(0)
 		}),
@@ -82,40 +83,15 @@ func register(name string, f func()) *walk.Action {
 	return action
 }
 
-func launch() {
-	defer func() {
-		recover()
-	}()
+var (
+	config string
+	indole string
+	proxy  string
+)
 
-	if cmd != nil {
-		clean()
-	}
-
-	bs, err := ioutil.ReadFile("config.xml")
-	if err != nil {
-		panic(err)
-	}
-	cmd = exec.Command("indole.exe")
-	stdin, err := cmd.StdinPipe()
-	if err != nil {
-		panic(err)
-	}
-
-	cmd.Start()
-	cmd.SysProcAttr = &syscall.SysProcAttr{
-		HideWindow: true,
-	}
-	stdin.Write(bs)
-	stdin.Close()
+func init() {
+	flag.StringVar(&config, "config", "config.xml", "config path")
+	flag.StringVar(&indole, "indole", "indole.exe", "indole path")
+	flag.StringVar(&proxy, "proxy", "127.0.0.1:3023", "proxy")
+	flag.Parse()
 }
-
-func clean() {
-	defer func() {
-		recover()
-	}()
-	cmd.Process.Kill()
-	cmd.Process.Wait()
-	cmd = nil
-}
-
-var cmd *exec.Cmd
