@@ -48,7 +48,6 @@ func main() {
 
 	ni.MouseDown().Attach(func(x, y int, button walk.MouseButton) {
 		exec.Command("cmd", "/c", cmd).Run()
-		// walk.App().Exit(0)
 	})
 
 	if err := ni.SetVisible(true); err != nil {

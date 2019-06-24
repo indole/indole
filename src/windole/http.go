@@ -2,6 +2,7 @@ package main
 
 import (
 	"net/http"
+	"os"
 	"os/exec"
 )
 
@@ -38,6 +39,37 @@ func init() {
 	})
 }
 
+func init() {
+	http.HandleFunc("/act/start_command", func(w http.ResponseWriter, r *http.Request) {
+		cmd := r.URL.Query().Get("cmd")
+		go exec.Command("cmd", "/c", cmd).Run()
+		w.WriteHeader(200)
+		w.Write([]byte(ok))
+	})
+}
+
+func init() {
+	http.HandleFunc("/act/exec_command", func(w http.ResponseWriter, r *http.Request) {
+		cmd := r.URL.Query().Get("cmd")
+		err := exec.Command("cmd", "/c", cmd).Run()
+		if err != nil {
+			w.WriteHeader(500)
+			w.Write([]byte(err.Error()))
+			return
+		}
+		w.WriteHeader(200)
+		w.Write([]byte(ok))
+	})
+}
+
+func init() {
+	http.HandleFunc("/act/exit", func(w http.ResponseWriter, r *http.Request) {
+		os.Exit(0)
+		w.WriteHeader(200)
+		w.Write([]byte(ok))
+	})
+}
+
 const ok = "OK"
 
 const html = `
@@ -58,6 +90,17 @@ const html = `
     </form>
     <form action="/act/close_system_proxy" target="main">
         <button type="submit">Close System Proxy</button>
+    </form>
+    <form action="/act/start_command" target="main">
+        <input type="text" name="cmd" value="indole.exe &lt; config.xml"/>
+        <button type="submit">Launch Indole (Start CMD)</button>
+    </form>
+    <form action="/act/exec_command" target="main">
+        <input type="text" name="cmd" value="taskkill /im indole.exe /F"/>
+        <button type="submit">Kill Indole (Exec CMD)</button>
+    </form>
+    <form action="/act/exit" target="main">
+        <button type="submit">Exit</button>
     </form>
     <h1>Results</h1>
     <iframe name="main"></frame>
