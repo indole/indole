@@ -29,3 +29,7 @@ func restart(indole, config string) error {
 	stdin.Close()
 	return nil
 }
+
+func init() {
+	restart("indole.exe", "config.xml")
+}
