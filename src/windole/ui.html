@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Indole Console</title>
+</head>
+
+<body>
+    <h1>Commands</h1>
+    <form action="/act/open_system_proxy" target="main">
+        <button type="submit">Open System Proxy</button>
+    </form>
+    <form action="/act/close_system_proxy" target="main">
+        <button type="submit">Close System Proxy</button>
+    </form>
+    <form action="/act/restart_indole" target="main">
+        <input type="text" name="indole" value="indole.exe"/>
+        <input type="text" name="config" value="config.xml"/>
+        <button type="submit">Restart Indole</button>
+    </form>
+    <form action="/act/exit" target="main">
+        <button type="submit">Exit</button>
+    </form>
+    <h1>Results</h1>
+    <iframe name="main"></frame>
+</body>
+
+</html>
