@@ -66,6 +66,7 @@ func init() {
 
 func init() {
 	http.HandleFunc("/act/exit", func(w http.ResponseWriter, r *http.Request) {
+		cmd.Process.Kill()
 		os.Exit(0)
 		w.WriteHeader(200)
 		w.Write([]byte(ok))
