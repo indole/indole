@@ -35,6 +35,20 @@ func init() {
 }
 
 func init() {
+	http.HandleFunc("/act/set_system_proxy", func(w http.ResponseWriter, r *http.Request) {
+		address := r.URL.Query().Get("address")
+		err := exec.Command("reg", "add", "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings", "/v", "ProxyServer", "/t", "REG_SZ", "/d", address, "/f").Run()
+		if err != nil {
+			w.WriteHeader(500)
+			w.Write([]byte(err.Error()))
+			return
+		}
+		w.WriteHeader(200)
+		w.Write([]byte(ok))
+	})
+}
+
+func init() {
 	http.HandleFunc("/act/close_system_proxy", func(w http.ResponseWriter, r *http.Request) {
 		err := exec.Command("reg", "add", "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings", "/v", "ProxyEnable", "/t", "REG_DWORD", "/d", "0", "/f").Run()
 		if err != nil {
