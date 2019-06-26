@@ -2,8 +2,10 @@ package main
 
 import (
 	"encoding/xml"
-	"indole/manager/tcpaes"
-	"indole/manager/udptun"
+	"indole/manager"
+	_ "indole/manager/basiccontrol"
+	_ "indole/plugin/createfileinterface"
+	_ "indole/plugin/openfileinterface"
 	"log"
 	"os"
 	"os/signal"
@@ -12,24 +14,16 @@ import (
 func main() {
 	channel := make(chan os.Signal, 1)
 	signal.Notify(channel, os.Interrupt)
-
-	for _, v := range config.TCPAES {
-		manager := tcpaes.Build(v)
-		go manager.Run()
+	for _, v := range config.Manager {
+		v.Run()
 	}
-	for _, v := range config.UDPTUN {
-		manager := udptun.Build(v)
-		go manager.Run()
-	}
-
 	select {
 	case <-channel:
 	}
 }
 
 var config = &struct {
-	TCPAES []*tcpaes.Args `xml:"tcpaes"`
-	UDPTUN []*udptun.Args `xml:"udptun"`
+	Manager []*manager.Manager `xml:"Manager"`
 }{}
 
 func init() {
