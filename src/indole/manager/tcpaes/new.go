@@ -3,11 +3,15 @@ package tcpaes
 import (
 	"indole/manager"
 	"indole/plugin/aesdec"
+	"indole/plugin/aesdecodepacket"
 	"indole/plugin/aesenc"
+	"indole/plugin/aesencodepacket"
 	"indole/plugin/hexdecodestream"
 	"indole/plugin/hexencodestream"
+	"indole/plugin/packettostream"
 	"indole/plugin/plainpacket"
 	"indole/plugin/plainstream"
+	"indole/plugin/streamtopacket"
 	"indole/plugin/tcp"
 	"io"
 	"log"
@@ -48,6 +52,10 @@ type coder struct {
 	PlainPacket     []*plainpacket.Args     `xml:"PlainPacket"`
 	HexEncodeStream []*hexencodestream.Args `xml:"HexEncodeStream"`
 	HexDecodeStream []*hexdecodestream.Args `xml:"HexDecodeStream"`
+	AESEncodePacket []*aesencodepacket.Args `xml:"AESEncodePacket"`
+	AESDecodePacket []*aesdecodepacket.Args `xml:"AESDecodePacket"`
+	StreamToPacket  []*streamtopacket.Args  `xml:"StreamToPacket"`
+	PacketToStream  []*packettostream.Args  `xml:"PacketToStream"`
 }
 
 func (thisptr *coder) extract() func() (ret []io.ReadWriteCloser) {
@@ -69,6 +77,12 @@ func (thisptr *coder) extract() func() (ret []io.ReadWriteCloser) {
 		}
 		for _, v := range thisptr.HexDecodeStream {
 			ret = append(ret, hexdecodestream.Build(v))
+		}
+		for _, v := range thisptr.StreamToPacket {
+			ret = append(ret, streamtopacket.Build(v))
+		}
+		for _, v := range thisptr.PacketToStream {
+			ret = append(ret, packettostream.Build(v))
 		}
 		return
 	}
