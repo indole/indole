@@ -7,7 +7,7 @@ import (
 
 // Run ...
 func (thisptr *Args) Run(instance *manager.Instance) {
-	instance.Run()
+	go instance.Run()
 }
 
 // Args ...

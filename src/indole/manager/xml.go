@@ -36,7 +36,7 @@ func (thisptr *Manager) Run() {
 		}
 	}
 	if ctrl, ok := ManagerRegister[thisptr.Control.Name]; ok {
-		if config, err := xml.Marshal(thisptr.Plugin); err == nil {
+		if config, err := xml.Marshal(thisptr.Control); err == nil {
 			ctrl(config)(&Instance{
 				F: f,
 				E: thisptr.Connection,

@@ -1,6 +1,8 @@
 package manager
 
-import "io"
+import (
+	"io"
+)
 
 // Instance ...
 type Instance struct {
