@@ -124,3 +124,65 @@ Example Here **TODO**
     </Manager>
 </indole>
 ```
+
+example 2
+
+```xml
+<indole>
+    <Manager>
+        <Plugin Name="AESEncodePacket">
+            <HexKey>ffffffffffffffffffffffffffffffff</HexKey>
+        </Plugin>
+        <Plugin Name="PacketToStream">
+        </Plugin>
+        <Plugin Name="TCPInterface">
+            <Network>tcp</Network>
+            <Address>127.0.0.1:3024</Address>
+        </Plugin>
+        <Plugin Name="StreamToPacket">
+        </Plugin>
+        <Plugin Name="AESDecodePacket">
+            <HexKey>ffffffffffffffffffffffffffffffff</HexKey>
+        </Plugin>
+        <Connection x="0" y="1" size="2048"/>
+        <Connection x="1" y="2" size="1024"/>
+        <Connection x="2" y="3" size="1024"/>
+        <Connection x="3" y="4" size="2048"/>
+        <Control Name="TCPControl">
+            <Network>tcp</Network>
+            <Address>0.0.0.0:3025</Address>
+            <In>0</In>
+            <Out>4</Out>
+            <Size>1024</Size>
+        </Control>
+    </Manager>
+
+    <Manager>
+        <Plugin Name="StreamToPacket">
+        </Plugin>
+        <Plugin Name="AESDecodePacket">
+            <HexKey>ffffffffffffffffffffffffffffffff</HexKey>
+        </Plugin>
+        <Plugin Name="TCPInterface">
+            <Network>tcp</Network>
+            <Address>127.0.0.1:8118</Address>
+        </Plugin>
+        <Plugin Name="AESEncodePacket">
+            <HexKey>ffffffffffffffffffffffffffffffff</HexKey>
+        </Plugin>
+        <Plugin Name="PacketToStream">
+        </Plugin>
+        <Connection x="0" y="1" size="2048"/>
+        <Connection x="1" y="2" size="1024"/>
+        <Connection x="2" y="3" size="1024"/>
+        <Connection x="3" y="4" size="2048"/>
+        <Control Name="TCPControl">
+            <Network>tcp</Network>
+            <Address>0.0.0.0:3024</Address>
+            <In>0</In>
+            <Out>4</Out>
+            <Size>1024</Size>
+        </Control>
+    </Manager>
+</indole>
+```
