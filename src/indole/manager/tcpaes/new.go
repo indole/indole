@@ -4,6 +4,8 @@ import (
 	"indole/manager"
 	"indole/plugin/aesdec"
 	"indole/plugin/aesenc"
+	"indole/plugin/hexdecodestream"
+	"indole/plugin/hexencodestream"
 	"indole/plugin/plainpacket"
 	"indole/plugin/plainstream"
 	"indole/plugin/tcp"
@@ -40,10 +42,12 @@ type Args struct {
 }
 
 type coder struct {
-	AESENC      []*aesenc.Args      `xml:"aesenc"`
-	AESDEC      []*aesdec.Args      `xml:"aesdec"`
-	PlainStream []*plainstream.Args `xml:"plainstream"`
-	PlainPacket []*plainpacket.Args `xml:"plainpacket"`
+	AESENC          []*aesenc.Args          `xml:"aesenc"`
+	AESDEC          []*aesdec.Args          `xml:"aesdec"`
+	PlainStream     []*plainstream.Args     `xml:"PlainStream"`
+	PlainPacket     []*plainpacket.Args     `xml:"PlainPacket"`
+	HexEncodeStream []*hexencodestream.Args `xml:"HexEncodeStream"`
+	HexDecodeStream []*hexdecodestream.Args `xml:"HexDecodeStream"`
 }
 
 func (thisptr *coder) extract() func() (ret []io.ReadWriteCloser) {
@@ -59,6 +63,12 @@ func (thisptr *coder) extract() func() (ret []io.ReadWriteCloser) {
 		}
 		for _, v := range thisptr.PlainPacket {
 			ret = append(ret, plainpacket.Build(v))
+		}
+		for _, v := range thisptr.HexEncodeStream {
+			ret = append(ret, hexencodestream.Build(v))
+		}
+		for _, v := range thisptr.HexDecodeStream {
+			ret = append(ret, hexdecodestream.Build(v))
 		}
 		return
 	}
