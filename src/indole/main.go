@@ -5,6 +5,8 @@ import (
 	"indole/manager"
 	_ "indole/manager/basiccontrol"
 	_ "indole/manager/tcpcontrol"
+	_ "indole/plugin/aesdecodepacket"
+	_ "indole/plugin/aesencodepacket"
 	_ "indole/plugin/createfileinterface"
 	_ "indole/plugin/hexdecodestream"
 	_ "indole/plugin/hexencodestream"
