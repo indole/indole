@@ -5,24 +5,24 @@ import (
 	"io"
 )
 
-// HexEncodeStream ...
-type HexEncodeStream struct {
+// HexDecodeStream ...
+type HexDecodeStream struct {
 	reader  *io.PipeReader
 	writer  *io.PipeWriter
 	decoder io.Reader
 }
 
 // Close ...
-func (thisptr *HexEncodeStream) Close() error {
+func (thisptr *HexDecodeStream) Close() error {
 	return utils.FirstError(thisptr.reader.Close(), thisptr.writer.Close())
 }
 
 // Read ...
-func (thisptr *HexEncodeStream) Read(p []byte) (n int, err error) {
+func (thisptr *HexDecodeStream) Read(p []byte) (n int, err error) {
 	return thisptr.decoder.Read(p)
 }
 
 // Write ...
-func (thisptr *HexEncodeStream) Write(p []byte) (n int, err error) {
+func (thisptr *HexDecodeStream) Write(p []byte) (n int, err error) {
 	return thisptr.writer.Write(p)
 }
