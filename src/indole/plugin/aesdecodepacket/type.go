@@ -24,10 +24,12 @@ func (thisptr *AESDecodePacket) Read(p []byte) (n int, err error) {
 
 // Write ...
 func (thisptr *AESDecodePacket) Write(p []byte) (n int, err error) {
-	data := make([]byte, len(p))
-	n = copy(data, p)
+	data, err := thisptr.decode(p)
+	if err != nil {
+		return 0, err
+	}
 	thisptr.queue <- data
-	return
+	return len(p), nil
 }
 
 func (thisptr *AESDecodePacket) decode(data []byte) ([]byte, error) {
