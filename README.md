@@ -16,7 +16,7 @@ obabel indole.sdf -O indole.png -d --title ""
 
 **DOC** **TODO**
 
-An Windows GUI for Indole [IndoleVPN](https://github.com/Tommo-L/IndoleVPN)
+An Windows GUI for Indole (v0.2) [IndoleVPN](https://github.com/Tommo-L/IndoleVPN)
 
 # Usage
 
