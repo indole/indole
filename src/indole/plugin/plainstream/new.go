@@ -1,4 +1,4 @@
-package plain
+package plainstream
 
 import (
 	"io"
@@ -6,12 +6,13 @@ import (
 
 // Build ...
 func Build(args *Args) io.ReadWriteCloser {
-	return &PLAIN{
-		queue: make(chan []byte, args.QueueSize),
+	r, w := io.Pipe()
+	return &PlainStream{
+		reader: r,
+		writer: w,
 	}
 }
 
 // Args ...
 type Args struct {
-	QueueSize int `xml:"queue_size,attr"`
 }

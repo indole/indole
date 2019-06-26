@@ -4,7 +4,8 @@ import (
 	"indole/manager"
 	"indole/plugin/aesdec"
 	"indole/plugin/aesenc"
-	"indole/plugin/plain"
+	"indole/plugin/plainpacket"
+	"indole/plugin/plainstream"
 	"indole/plugin/tcp"
 	"io"
 	"log"
@@ -39,9 +40,10 @@ type Args struct {
 }
 
 type coder struct {
-	AESENC []*aesenc.Args `xml:"aesenc"`
-	AESDEC []*aesdec.Args `xml:"aesdec"`
-	PLAIN  []*plain.Args  `xml:"plain"`
+	AESENC      []*aesenc.Args      `xml:"aesenc"`
+	AESDEC      []*aesdec.Args      `xml:"aesdec"`
+	PlainStream []*plainstream.Args `xml:"plainstream"`
+	PlainPacket []*plainpacket.Args `xml:"plainpacket"`
 }
 
 func (thisptr *coder) extract() func() (ret []io.ReadWriteCloser) {
@@ -52,8 +54,11 @@ func (thisptr *coder) extract() func() (ret []io.ReadWriteCloser) {
 		for _, v := range thisptr.AESDEC {
 			ret = append(ret, aesdec.Build(v))
 		}
-		for _, v := range thisptr.PLAIN {
-			ret = append(ret, plain.Build(v))
+		for _, v := range thisptr.PlainStream {
+			ret = append(ret, plainstream.Build(v))
+		}
+		for _, v := range thisptr.PlainPacket {
+			ret = append(ret, plainpacket.Build(v))
 		}
 		return
 	}
