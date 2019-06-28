@@ -16,6 +16,16 @@ func (thisptr *Instance) Run() {
 	for i, v := range thisptr.F {
 		vs[i] = v()
 	}
+	defer func() {
+		for _, v := range vs {
+			func(v io.ReadWriteCloser) {
+				defer func() {
+					recover()
+				}()
+				v.Close()
+			}(v)
+		}
+	}()
 	c := make(chan struct{}, len(thisptr.E))
 	for _, v := range thisptr.E {
 		go Core(vs[v.X], vs[v.Y], v.Size, c)
