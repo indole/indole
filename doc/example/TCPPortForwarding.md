@@ -17,3 +17,14 @@
     </Manager>
 </Indole>
 ```
+
+```mermaid
+graph LR
+F((Browser))
+A(localhost:3025)
+B[localhost:3024]
+F-.->A
+A-->B
+B-->A
+A-.->F
+```
