@@ -25,14 +25,14 @@ You can input the configuration xml after you start INDOLE, a configuration exam
 ```xml
 <indole>
     <Manager>
-        <Plugin Name="OpenFileInterface">
+        <Plugin name="OpenFileInterface">
             <FileName>src.txt</FileName>
         </Plugin>
-        <Plugin Name="CreateFileInterface">
+        <Plugin name="CreateFileInterface">
             <FileName>dst.txt</FileName>
         </Plugin>
         <Connection x="0" y="1" size="8192"/>
-        <Control Name="BasicControl">
+        <Control name="BasicControl">
         </Control>
     </Manager>
 </indole>

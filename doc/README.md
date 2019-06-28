@@ -4,17 +4,18 @@ Indole Documentation tells you how to use INDOLE.
 
 # Tutorial
 
-1. [StartIndole](StartIndole.md)
-2. [Configuration](Configuration.md)
-3. [Manager](Manager.md)
-4. [Plugin](Plugin.md)
-5. [Connection](Connection.md)
-6. [Control](Control.md)
-7. [ConfigYourArchitecture](ConfigYourArchitecture.md)
+1. [StartIndole](tutorial/StartIndole.md)
+2. [Configuration](tutorial/Configuration.md)
+3. [Manager](tutorial/Manager.md)
+4. [Plugin](tutorial/Plugin.md)
+5. [Connection](tutorial/Connection.md)
+6. [Control](tutorial/Control.md)
+7. [ConfigYourArchitecture](tutorial/ConfigYourArchitecture.md)
 
 # Example
 
-**TODO**
+1. [CopyFile](example/CopyFile.md)
+1. [TCPPortForwarding](example/TCPPortForwarding.md)
 
 # Reference
 
