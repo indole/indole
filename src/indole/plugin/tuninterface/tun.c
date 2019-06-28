@@ -1,12 +1,12 @@
 #ifdef __MINGW64__
 #include <stdio.h>
 #include <stdlib.h>
-int32_t setup_tap_device(int32_t fd, char *ifname) {
+int32_t setup_tap_device(char *ifname) {
   perror("tun/tap is not support on windows");
   return -1;
 }
 
-int32_t setup_tun_device(int32_t fd, char *ifname) {
+int32_t setup_tun_device(char *ifname) {
   perror("tun/tap is not support on windows");
   return -1;
 }
@@ -50,7 +50,7 @@ int32_t setup_dev(char *ifname, short flags) {
     return err;
   }
   strncpy(ifname, ifr.ifr_name, IFNAMSIZ);
-  return 0;
+  return fd;
 }
 
 int32_t setup_tap_device(char *ifname) {
