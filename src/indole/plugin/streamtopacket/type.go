@@ -33,7 +33,6 @@ func (thisptr *StreamToPacket) transcode() {
 	for {
 		var s uint64
 		if err := binary.Read(thisptr.reader, binary.LittleEndian, &s); err != nil {
-			thisptr.Close()
 			return
 		}
 		size := int(s)
@@ -41,7 +40,6 @@ func (thisptr *StreamToPacket) transcode() {
 		for i := 0; i < size; {
 			n, err := thisptr.reader.Read(buffer[i:size])
 			if err != nil {
-				thisptr.Close()
 				return
 			}
 			i += n

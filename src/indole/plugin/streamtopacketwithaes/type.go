@@ -33,9 +33,6 @@ func (thisptr *StreamToPacketWithAES) Write(p []byte) (n int, err error) {
 }
 
 func (thisptr *StreamToPacketWithAES) transcode() {
-	defer func() {
-		thisptr.Close()
-	}()
 	for {
 		ciphersize := make([]byte, headersize)
 		if err := thisptr.readbuf(ciphersize); err != nil {
