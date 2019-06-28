@@ -30,9 +30,6 @@ func (thisptr *StreamToPacket) Write(p []byte) (n int, err error) {
 }
 
 func (thisptr *StreamToPacket) transcode() {
-	defer func() {
-		recover()
-	}()
 	for {
 		var s uint64
 		if err := binary.Read(thisptr.reader, binary.LittleEndian, &s); err != nil {

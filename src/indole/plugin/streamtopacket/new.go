@@ -3,6 +3,7 @@ package streamtopacket
 import (
 	"encoding/xml"
 	"indole/manager"
+	"indole/utils"
 	"io"
 )
 
@@ -14,7 +15,10 @@ func (thisptr *Args) Build() io.ReadWriteCloser {
 		reader: r,
 		writer: w,
 	}
-	go ret.transcode()
+	go func() {
+		defer utils.Recover("[WARN]", "[plugin]", "[StreamToPacket]", "[Build]")
+		ret.transcode()
+	}()
 	return ret
 }
 

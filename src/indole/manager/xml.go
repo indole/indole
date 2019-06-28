@@ -7,14 +7,14 @@ import (
 
 // Manager ...
 type Manager struct {
-	Plugin     []*Plugin     `xml:"Plugin"`
+	Name       []*Name       `xml:"Plugin"`
 	Connection []*Connection `xml:"Connection"`
-	Control    *Plugin       `xml:"Control"`
+	Control    *Name         `xml:"Control"`
 }
 
-// Plugin ...
-type Plugin struct {
-	Name string `xml:"Name,attr"`
+// Name ...
+type Name struct {
+	Name string `xml:"name,attr"`
 	Args string `xml:",innerxml"`
 }
 
@@ -27,8 +27,8 @@ type Connection struct {
 
 // Run ...
 func (thisptr *Manager) Run() {
-	f := make([]func() io.ReadWriteCloser, len(thisptr.Plugin))
-	for i, v := range thisptr.Plugin {
+	f := make([]func() io.ReadWriteCloser, len(thisptr.Name))
+	for i, v := range thisptr.Name {
 		if gen, ok := PluginRegister[v.Name]; ok {
 			if config, err := xml.Marshal(v); err == nil {
 				f[i] = gen(config)

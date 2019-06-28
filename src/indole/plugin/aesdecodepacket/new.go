@@ -5,14 +5,12 @@ import (
 	"encoding/xml"
 	"indole/manager"
 	"io"
-	"log"
 )
 
 // Build ...
 func (thisptr *Args) Build() io.ReadWriteCloser {
 	key, err := hex.DecodeString(thisptr.HexKey)
 	if err != nil {
-		log.Println("[plugin]", "[aesdecodepacket]", "[Build]", "err:", err)
 		return nil
 	}
 	return &AESDecodePacket{

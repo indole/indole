@@ -4,6 +4,7 @@ import (
 	"encoding/hex"
 	"encoding/xml"
 	"indole/manager"
+	"indole/utils"
 	"io"
 )
 
@@ -20,7 +21,10 @@ func (thisptr *Args) Build() io.ReadWriteCloser {
 		writer: w,
 		key:    key,
 	}
-	go ret.transcode()
+	go func() {
+		defer utils.Recover("[WARN]", "[plugin]", "[StreamToPacketWithAES]", "[Build]")
+		ret.transcode()
+	}()
 	return ret
 }
 

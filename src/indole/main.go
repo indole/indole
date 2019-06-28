@@ -42,6 +42,6 @@ func init() {
 	decoder := xml.NewDecoder(os.Stdin)
 	err := decoder.Decode(config)
 	if err != nil {
-		log.Fatalln("main", "init", "decoder.Decode(config)", err)
+		log.Fatalln("[ERRO]", "[main]", "[init]", "decoder.Decode(config)", err)
 	}
 }

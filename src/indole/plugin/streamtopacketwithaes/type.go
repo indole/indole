@@ -34,9 +34,6 @@ func (thisptr *StreamToPacketWithAES) Write(p []byte) (n int, err error) {
 
 func (thisptr *StreamToPacketWithAES) transcode() {
 	defer func() {
-		recover()
-	}()
-	defer func() {
 		thisptr.Close()
 	}()
 	for {

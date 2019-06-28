@@ -13,7 +13,7 @@ import (
 func (thisptr *Args) Run(instance *manager.Instance) {
 	listener, err := net.Listen(thisptr.Network, thisptr.Address)
 	if err != nil {
-		log.Println("[manager]", "[tcpcontrol]", "[Run]", "err:", err)
+		log.Println("[WARN]", "[manager]", "[tcpcontrol]", "[Run]", "err:", err)
 	}
 	conns := make(chan net.Conn, 0)
 	instance.E = append(instance.E, &manager.Connection{

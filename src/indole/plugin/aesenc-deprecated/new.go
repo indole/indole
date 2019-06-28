@@ -4,14 +4,12 @@ import (
 	"bytes"
 	"encoding/hex"
 	"io"
-	"log"
 )
 
 // Build ...
 func Build(args *Args) io.ReadWriteCloser {
 	key, err := hex.DecodeString(args.HexKey)
 	if err != nil {
-		log.Println("[plugin]", "[aesenc]", "[New]", "err:", err)
 		return nil
 	}
 	return &AESENC{

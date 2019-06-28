@@ -1,6 +1,7 @@
 package manager
 
 import (
+	"indole/utils"
 	"io"
 )
 
@@ -19,16 +20,30 @@ func (thisptr *Instance) Run() {
 	defer func() {
 		for _, v := range vs {
 			func(v io.ReadWriteCloser) {
-				defer func() {
-					recover()
-				}()
+				defer utils.Recover("[WARN]", "[manager]", "[Instance]", "[Run]")
 				v.Close()
 			}(v)
 		}
 	}()
 	c := make(chan struct{}, len(thisptr.E))
 	for _, v := range thisptr.E {
-		go Core(vs[v.X], vs[v.Y], v.Size, c)
+		go func(x, y io.ReadWriteCloser, size int) {
+			defer func() {
+				c <- struct{}{}
+			}()
+			defer utils.Recover("[WARN]", "[manager]", "[Instance]", "[Run]")
+			buf := make([]byte, size)
+			for {
+				n, err := x.Read(buf)
+				if err != nil {
+					return
+				}
+				_, err = y.Write(buf[:n])
+				if err != nil {
+					return
+				}
+			}
+		}(vs[v.X], vs[v.Y], v.Size)
 	}
 	select {
 	case <-c:
@@ -38,7 +53,6 @@ func (thisptr *Instance) Run() {
 // Core ...
 func Core(x, y io.ReadWriteCloser, bufsize int, done chan struct{}) {
 	defer func() {
-		recover()
 		done <- struct{}{}
 	}()
 	buf := make([]byte, bufsize)

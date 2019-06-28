@@ -2,7 +2,6 @@ package main
 
 import (
 	"io/ioutil"
-	"log"
 	"net/http"
 	"os"
 	"os/exec"
@@ -65,9 +64,7 @@ func init() {
 	http.HandleFunc("/act/restart_indole", func(w http.ResponseWriter, r *http.Request) {
 		indole := r.URL.Query().Get("indole")
 		config := r.URL.Query().Get("config")
-		log.Println("1")
 		err := restart(indole, config)
-		log.Println("2")
 		if err != nil {
 			w.WriteHeader(500)
 			w.Write([]byte(err.Error()))
