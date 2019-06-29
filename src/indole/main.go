@@ -18,6 +18,7 @@ import (
 	_ "indole/plugin/streamtopacket"
 	_ "indole/plugin/streamtopacketwithaes"
 	_ "indole/plugin/tcpinterface"
+	_ "indole/plugin/udpinterface"
 	"log"
 	"os"
 	"os/signal"
