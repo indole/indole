@@ -5,13 +5,13 @@
     <Manager>
         <Plugin name="TCPInterface">
             <Network>tcp</Network>
-            <Address>0.0.0.0:3024</Address>
+            <Address>127.0.0.1:8118</Address>
         </Plugin>
-        <Control Name="TCPControl">
+        <Control name="TCPControl">
             <Network>tcp</Network>
             <Address>0.0.0.0:3025</Address>
             <In>0</In>
-            <Out>4</Out>
+            <Out>0</Out>
             <Size>4096</Size>
         </Control>
     </Manager>
@@ -19,12 +19,17 @@
 ```
 
 ```mermaid
-graph LR
-F((Browser))
-A(localhost:3025)
-B[localhost:3024]
-F-.->A
-A-->B
-B-->A
-A-.->F
+graph TB
+subgraph localhost:3025
+ AR(R)
+ AW(W)
+end
+subgraph localhost:8118
+ BR[R]
+ BW[W]
+end
+AR-->BW
+BR-->AW
+Browser-.->AR
+Browser-.->AW
 ```

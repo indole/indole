@@ -18,7 +18,13 @@
 
 ```mermaid
 graph LR
-A[src.txt]
-B[dst.txt]
-A-->B
+subgraph src.txt
+ AR[R]
+ AW[W]
+end
+subgraph dst.txt
+ BR[R]
+ BW[W]
+end
+AR-->BW
 ```
