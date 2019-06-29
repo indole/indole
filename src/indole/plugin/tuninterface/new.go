@@ -4,6 +4,7 @@ package tuninterface
 #include <stdint.h>
 int32_t setup_tun_device(char *ifname);
 int32_t set_ip(char *name, char *ip_addr, char *netmask);
+int32_t set_mtu(char *name,int32_t mtu);
 */
 import "C"
 import (
@@ -23,7 +24,11 @@ func Build(args *Args) io.ReadWriteCloser {
 		(*C.char)(unsafe.Pointer(&args.Ipaddr)),
 		(*C.char)(unsafe.Pointer(&args.Netmask)),
 	)
-	if tunfd < 0 || setip < 0 {
+	setmtu := C.set_mtu(
+		(*C.char)(unsafe.Pointer(&args.Device)),
+		(C.int)(unsafe.Pointer(&args.Mtu)),
+	)
+	if tunfd < 0 || setip < 0 || setmtu < 0 {
 		log.Println("plugin", "tuninterface", "New", "C.setup_tun_device()")
 		return nil
 	}
@@ -35,6 +40,7 @@ type Args struct {
 	Device  string `xml:"device,attr"`
 	Ipaddr  string `xml:"ip,attr"`
 	Netmask string `xml:"netmask,attr"`
+	Mtu     int    `xml:"mtu,attr"`
 }
 
 func init() {

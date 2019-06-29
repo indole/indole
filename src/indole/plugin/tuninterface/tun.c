@@ -117,6 +117,26 @@ int32_t set_ip(char *name, char *ip_addr, char *netmask) {
   }
   return 1;
 }
+
+int32_t set_mtu(char *name,int32_t mtu) {
+  printf("%d",mtu);
+  int sockfd;
+  if ((sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
+    perror("Create socket fails!\n");
+    return -1;
+  }
+  struct ifreq ifr;
+  struct sockaddr_in sin;
+  strncpy(ifr.ifr_name, name, IFNAMSIZ);
+  if (ioctl(sockfd, SIOCSIFFLAGS, &ifr) < 0) {
+    return -4;
+  }
+  ifr.ifr_mtu = mtu; 
+  if (ioctl(sockfd, SIOCSIFMTU, &ifr) < 0) {
+    return -2;
+  }
+  return 1;
+}
 #endif
 
 // int main() {
@@ -134,6 +154,10 @@ int32_t set_ip(char *name, char *ip_addr, char *netmask) {
 //     }
 //     if (set_ip(dev,"192.168.1.2","255.255.255.0") < 0){
 //         printf("set_ip failed\n");
+//         return -1;
+//     }
+//     if (set_mtu(dev,1420) < 0){
+//         printf("set_mtu failed\n");
 //         return -1;
 //     }
 //     sleep(10);
