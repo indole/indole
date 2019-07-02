@@ -16,25 +16,25 @@ Here is a example of INDOLE configuration
 ```xml
 <indole>
     <Manager>
-        <Plugin Name="OpenFileInterface">
+        <Plugin name="OpenFileInterface">
             <FileName>src1.txt</FileName>
         </Plugin>
-        <Plugin Name="CreateFileInterface">
+        <Plugin name="CreateFileInterface">
             <FileName>dst1.txt</FileName>
         </Plugin>
         <Connection x="0" y="1" size="8192"/>
-        <Control Name="BasicControl">
+        <Control name="BasicControl">
         </Control>
     </Manager>
     <Manager>
-        <Plugin Name="OpenFileInterface">
+        <Plugin name="OpenFileInterface">
             <FileName>src2.txt</FileName>
         </Plugin>
-        <Plugin Name="CreateFileInterface">
+        <Plugin name="CreateFileInterface">
             <FileName>dst2.txt</FileName>
         </Plugin>
         <Connection x="0" y="1" size="8192"/>
-        <Control Name="BasicControl">
+        <Control name="BasicControl">
         </Control>
     </Manager>
 </indole>

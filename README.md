@@ -1,12 +1,12 @@
 # INDOLE
 
-INDOLE is a data transfer tool focus on privacy protection on Internet
+INDOLE is an open framework for data transfer with fully customized protocol by end user.
 
-THE PRINCIPLE of INDOLE is:
+# Logo
 
-    an open framework for data transfer with fully customized protocol by end user.
+Here is the sdf file of indole [LOGO](indole.sdf).
 
-If you want to use INDOLE logo, build it by [open babel](http://openbabel.org). For example:
+If you want another format, build it by [open babel](http://openbabel.org).
 
 ```sh
 obabel indole.sdf -O indole.png -d --title ""
@@ -14,9 +14,9 @@ obabel indole.sdf -O indole.png -d --title ""
 
 # GUI
 
-**DOC** **TODO**
-
-An Windows GUI for Indole (v0.2) [IndoleVPN](https://github.com/Tommo-L/IndoleVPN)
+- [Windole](src/windole) is a windows GUI for INDOLE.
+- [IndoleVPN](https://github.com/Tommo-L/IndoleVPN) is an windows GUI for proxy usage of INDOLE (v0.2) 
+- [Droidindole](https://github.com/AaronGarbut/Droidindole) an Android GUI/Interface
 
 # Usage
 
@@ -61,128 +61,6 @@ The following tools are recommended for deploy
 1. [supervisor](http://supervisord.org/)
 2. [docker](https://www.docker.com/)
 
-# Tutotial
+# Documentation
 
-start INDOLE
-
-```sh
-./indole
-```
-
-Then input the xml configuration.
-
-The following of this section will show how the configuration works
-
-## INDOLE Configure Schema
-
-**TIME TO NEW INDOLE !!!!!!!!!!!!!!!!**
-
-Example Here **TODO**
-
-```xml
-<Indole>
-    <Manager>
-        <Plugin name="AESEncodePacket">
-            <HexKey>ffffffffffffffffffffffffffffffff</HexKey>
-        </Plugin>
-        <Plugin name="PacketToStream">
-        </Plugin>
-        <Plugin name="TCPInterface">
-            <Network>tcp</Network>
-            <Address>127.0.0.1:3024</Address>
-        </Plugin>
-        <Connection x="0" y="1" size="2048"/>
-        <Connection x="1" y="2" size="1024"/>
-        <Control name="TCPControl">
-            <Network>tcp</Network>
-            <Address>0.0.0.0:3025</Address>
-            <In>0</In>
-            <Out>2</Out>
-            <Size>1024</Size>
-        </Control>
-    </Manager>
-
-    <Manager>
-        <Plugin name="StreamToPacket">
-        </Plugin>
-        <Plugin name="AESDecodePacket">
-            <HexKey>ffffffffffffffffffffffffffffffff</HexKey>
-        </Plugin>
-        <Plugin name="TCPInterface">
-            <Network>tcp</Network>
-            <Address>127.0.0.1:8118</Address>
-        </Plugin>
-        <Connection x="0" y="1" size="2048"/>
-        <Connection x="1" y="2" size="1024"/>
-        <Control name="TCPControl">
-            <Network>tcp</Network>
-            <Address>0.0.0.0:3024</Address>
-            <In>0</In>
-            <Out>2</Out>
-            <Size>1024</Size>
-        </Control>
-    </Manager>
-</Indole>
-```
-
-example 2
-
-```xml
-<Indole>
-    <Manager>
-        <Plugin name="AESEncodePacket">
-            <HexKey>ffffffffffffffffffffffffffffffff</HexKey>
-        </Plugin>
-        <Plugin name="PacketToStream">
-        </Plugin>
-        <Plugin name="TCPInterface">
-            <Network>tcp</Network>
-            <Address>127.0.0.1:3024</Address>
-        </Plugin>
-        <Plugin name="StreamToPacket">
-        </Plugin>
-        <Plugin name="AESDecodePacket">
-            <HexKey>ffffffffffffffffffffffffffffffff</HexKey>
-        </Plugin>
-        <Connection x="0" y="1" size="2048"/>
-        <Connection x="1" y="2" size="1024"/>
-        <Connection x="2" y="3" size="1024"/>
-        <Connection x="3" y="4" size="2048"/>
-        <Control name="TCPControl">
-            <Network>tcp</Network>
-            <Address>0.0.0.0:3025</Address>
-            <In>0</In>
-            <Out>4</Out>
-            <Size>1024</Size>
-        </Control>
-    </Manager>
-
-    <Manager>
-        <Plugin name="StreamToPacket">
-        </Plugin>
-        <Plugin name="AESDecodePacket">
-            <HexKey>ffffffffffffffffffffffffffffffff</HexKey>
-        </Plugin>
-        <Plugin name="TCPInterface">
-            <Network>tcp</Network>
-            <Address>127.0.0.1:8118</Address>
-        </Plugin>
-        <Plugin name="AESEncodePacket">
-            <HexKey>ffffffffffffffffffffffffffffffff</HexKey>
-        </Plugin>
-        <Plugin name="PacketToStream">
-        </Plugin>
-        <Connection x="0" y="1" size="2048"/>
-        <Connection x="1" y="2" size="1024"/>
-        <Connection x="2" y="3" size="1024"/>
-        <Connection x="3" y="4" size="2048"/>
-        <Control name="TCPControl">
-            <Network>tcp</Network>
-            <Address>0.0.0.0:3024</Address>
-            <In>0</In>
-            <Out>4</Out>
-            <Size>1024</Size>
-        </Control>
-    </Manager>
-</Indole>
-```
+For more documentation, see [doc](doc)

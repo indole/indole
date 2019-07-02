@@ -6,13 +6,15 @@
         <Plugin name="AESEncodePacket">
             <HexKey>ffffffffffffffffffffffffffffffff</HexKey>
         </Plugin>
-        <Plugin name="PacketToStream">
+        <Plugin name="PacketToStreamWithAES">
+            <HexKey>ffffffffffffffffffffffffffffffff</HexKey>
         </Plugin>
         <Plugin name="TCPInterface">
             <Network>tcp</Network>
             <Address>127.0.0.1:3024</Address>
         </Plugin>
-        <Plugin name="StreamToPacket">
+        <Plugin name="StreamToPacketWithAES">
+            <HexKey>ffffffffffffffffffffffffffffffff</HexKey>
         </Plugin>
         <Plugin name="AESDecodePacket">
             <HexKey>ffffffffffffffffffffffffffffffff</HexKey>
@@ -31,7 +33,8 @@
     </Manager>
 
     <Manager>
-        <Plugin name="StreamToPacket">
+        <Plugin name="StreamToPacketWithAES">
+            <HexKey>ffffffffffffffffffffffffffffffff</HexKey>
         </Plugin>
         <Plugin name="AESDecodePacket">
             <HexKey>ffffffffffffffffffffffffffffffff</HexKey>
@@ -43,7 +46,8 @@
         <Plugin name="AESEncodePacket">
             <HexKey>ffffffffffffffffffffffffffffffff</HexKey>
         </Plugin>
-        <Plugin name="PacketToStream">
+        <Plugin name="PacketToStreamWithAES">
+            <HexKey>ffffffffffffffffffffffffffffffff</HexKey>
         </Plugin>
         <Connection x="0" y="1" size="2048"/>
         <Connection x="1" y="2" size="1024"/>

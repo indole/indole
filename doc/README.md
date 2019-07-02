@@ -18,6 +18,7 @@ Indole Documentation tells you how to use INDOLE.
 2. [TCPPortForwarding](example/TCPPortForwarding.md)
 3. [TCPTunnel](example/TCPTunnel.md)
 4. [CopyFileViaUDP](example/CopyFileViaUDP.md)
+5. [TCPTunnel2](example/TCPTunnel2.md)
 
 # Reference
 
