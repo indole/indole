@@ -9,6 +9,7 @@ import (
 	_ "indole/plugin/aesencodepacket"
 	_ "indole/plugin/createfileinterface"
 	_ "indole/plugin/dynamicudpinterface"
+	_ "indole/plugin/externalprocessinterface"
 	_ "indole/plugin/fileloginterface"
 	_ "indole/plugin/hexdecodestream"
 	_ "indole/plugin/hexencodestream"
