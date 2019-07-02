@@ -45,8 +45,7 @@ var config = &struct {
 
 func init() {
 	decoder := xml.NewDecoder(os.Stdin)
-	err := decoder.Decode(config)
-	if err != nil {
+	if err := decoder.Decode(config); err != nil {
 		log.Fatalln("[ERRO]", "[main]", "[init]", "decoder.Decode(config)", err)
 	}
 }

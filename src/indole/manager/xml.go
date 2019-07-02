@@ -3,11 +3,12 @@ package manager
 import (
 	"encoding/xml"
 	"io"
+	"log"
 )
 
 // Manager ...
 type Manager struct {
-	Name       []*Name       `xml:"Plugin"`
+	Plugin     []*Name       `xml:"Plugin"`
 	Connection []*Connection `xml:"Connection"`
 	Control    *Name         `xml:"Control"`
 }
@@ -27,12 +28,16 @@ type Connection struct {
 
 // Run ...
 func (thisptr *Manager) Run() {
-	f := make([]func() io.ReadWriteCloser, len(thisptr.Name))
-	for i, v := range thisptr.Name {
+	f := make([]func() io.ReadWriteCloser, len(thisptr.Plugin))
+	for i, v := range thisptr.Plugin {
 		if gen, ok := PluginRegister[v.Name]; ok {
 			if config, err := xml.Marshal(v); err == nil {
 				f[i] = gen(config)
+			} else {
+				log.Println("[WARN]", "[manager]", "[Run]", "err:", err)
 			}
+		} else {
+			log.Println("[WARN]", "[manager]", "[Run]", "plugin not found:", v.Name)
 		}
 	}
 	if ctrl, ok := ManagerRegister[thisptr.Control.Name]; ok {
@@ -41,7 +46,11 @@ func (thisptr *Manager) Run() {
 				F: f,
 				E: thisptr.Connection,
 			})
+		} else {
+			log.Println("[WARN]", "[manager]", "[Run]", "err:", err)
 		}
+	} else {
+		log.Println("[WARN]", "[manager]", "[Run]", "control not found:", thisptr.Control.Name)
 	}
 }
 
