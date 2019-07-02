@@ -64,3 +64,7 @@ The following tools are recommended for deploy
 # Documentation
 
 For more documentation, see [doc](doc)
+
+# Donation
+
+- BTC: bc1q5yvtyhn7uf60xwkck55dl5c909ywae75u8235r
