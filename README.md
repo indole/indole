@@ -25,8 +25,6 @@ obabel indole.sdf -O indole.png -d --title ""
 1. [gcc](https://gcc.gnu.org/)
 2. [golang](https://golang.org/)
 
-> golang is a temporary decision. Welcome new impls especially `rust`, `scheme`, `java`, `c++`
-
 ## Build
 
 ```sh
