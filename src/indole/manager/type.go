@@ -20,7 +20,7 @@ func (thisptr *Instance) Run() {
 	defer func() {
 		for _, v := range vs {
 			func(v io.ReadWriteCloser) {
-				defer utils.Recover("[WARN]", "[manager]", "[Instance]", "[Run]")
+				defer utils.Recover("[WARN]", "[manager]", "[Instance]", "[Run]", "[Close]")
 				v.Close()
 			}(v)
 		}
@@ -47,23 +47,5 @@ func (thisptr *Instance) Run() {
 	}
 	select {
 	case <-c:
-	}
-}
-
-// Core ...
-func Core(x, y io.ReadWriteCloser, bufsize int, done chan struct{}) {
-	defer func() {
-		done <- struct{}{}
-	}()
-	buf := make([]byte, bufsize)
-	for {
-		n, err := x.Read(buf)
-		if err != nil {
-			return
-		}
-		_, err = y.Write(buf[:n])
-		if err != nil {
-			return
-		}
 	}
 }

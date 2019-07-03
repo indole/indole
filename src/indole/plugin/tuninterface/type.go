@@ -1,14 +1,8 @@
 package tuninterface
 
-import (
-	"os"
-)
+import "os"
 
-// TUN ...
-type TUN struct {
+// TUNInterface ...
+type TUNInterface struct {
 	*os.File
 }
-
-// func (thisptr *TUN) Write(p []byte) (int, error) {
-// 	return thisptr.Conn.Write(p)
-// }

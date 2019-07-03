@@ -3,6 +3,7 @@ package aesdecodepacket
 import (
 	"crypto/aes"
 	"crypto/cipher"
+	"errors"
 )
 
 // AESDecodePacket ...
@@ -33,6 +34,9 @@ func (thisptr *AESDecodePacket) Write(p []byte) (n int, err error) {
 }
 
 func (thisptr *AESDecodePacket) decode(data []byte) ([]byte, error) {
+	if len(data) < aes.BlockSize {
+		return nil, errnel
+	}
 	block, err := aes.NewCipher(thisptr.key)
 	if err != nil {
 		return nil, err
@@ -44,3 +48,5 @@ func (thisptr *AESDecodePacket) decode(data []byte) ([]byte, error) {
 	stream.XORKeyStream(text, ciphertext)
 	return text, nil
 }
+
+var errnel = errors.New("not enough length")

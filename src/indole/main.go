@@ -8,6 +8,9 @@ import (
 	_ "indole/plugin/aesdecodepacket"
 	_ "indole/plugin/aesencodepacket"
 	_ "indole/plugin/createfileinterface"
+	_ "indole/plugin/dynamicudpinterface"
+	_ "indole/plugin/externalprocessinterface"
+	_ "indole/plugin/fileloginterface"
 	_ "indole/plugin/hexdecodestream"
 	_ "indole/plugin/hexencodestream"
 	_ "indole/plugin/openfileinterface"
@@ -18,6 +21,9 @@ import (
 	_ "indole/plugin/streamtopacket"
 	_ "indole/plugin/streamtopacketwithaes"
 	_ "indole/plugin/tcpinterface"
+	_ "indole/plugin/tuninterface"
+	_ "indole/plugin/udpinterface"
+	_ "indole/plugin/udpinterfacewriteerrorignore"
 	"log"
 	"os"
 	"os/signal"
@@ -40,8 +46,7 @@ var config = &struct {
 
 func init() {
 	decoder := xml.NewDecoder(os.Stdin)
-	err := decoder.Decode(config)
-	if err != nil {
+	if err := decoder.Decode(config); err != nil {
 		log.Fatalln("[ERRO]", "[main]", "[init]", "decoder.Decode(config)", err)
 	}
 }
