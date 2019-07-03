@@ -23,6 +23,7 @@ import (
 	_ "indole/plugin/tcpinterface"
 	_ "indole/plugin/tuninterface"
 	_ "indole/plugin/udpinterface"
+	_ "indole/plugin/udpinterfacewriteerrorignore"
 	"log"
 	"os"
 	"os/signal"
