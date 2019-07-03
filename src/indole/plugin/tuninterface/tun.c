@@ -91,8 +91,6 @@ int32_t up_device(char *name) {
 
 int32_t set_ip(char *name, char *ip_addr, char *netmask) {
   up_device(name);
-  perror(ip_addr);
-  perror(netmask);
   int sockfd;
   if ((sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
     perror("Create socket fails!\n");
@@ -135,6 +133,7 @@ int32_t set_mtu(char *name,int32_t mtu) {
   if (ioctl(sockfd, SIOCSIFMTU, &ifr) < 0) {
     return -2;
   }
+  up_device(name);
   return 1;
 }
 #endif
