@@ -29,6 +29,9 @@ Indole Documentation tells you how to use INDOLE.
 
 1. [AESDecodePacket](reference/plugin/AESDecodePacket.md)
 2. [AESEncodePacket](reference/plugin/AESEncodePacket.md)
+3. [CreateFileInterface](reference/plugin/CreateFileInterface.md)
+4. [DynamicPaddingEncodePacket](reference/plugin/DynamicPaddingEncodePacket.md)
+5. [DynamicUDPInterface](reference/plugin/DynamicUDPInterface.md)
 
 ## Manager
 
