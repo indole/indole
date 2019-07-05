@@ -19,9 +19,9 @@ Indole Documentation tells you how to use INDOLE.
 3. [TCPTunnel](example/TCPTunnel.md)
 4. [CopyFileViaUDP](example/CopyFileViaUDP.md)
 5. [TCPTunnel2](example/TCPTunnel2.md)
-6. [LocalUDPToRemoteUDP](LocalUDPToRemoteUDP.md)
-7. [UDPToTUN](UDPToTUN.md)
-8. [SecureUDPToTUN](SecureUDPToTUN.md)
+6. [LocalUDPToRemoteUDP](example/LocalUDPToRemoteUDP.md)
+7. [UDPToTUN](example/UDPToTUN.md)
+8. [SecureUDPToTUN](example/SecureUDPToTUN.md)
 
 # Reference
 
