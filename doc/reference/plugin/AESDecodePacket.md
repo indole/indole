@@ -16,4 +16,7 @@ AES Docode with `AES-128-CFB` or `AES-256-CFB`
 | --- | ------ | ------ |
 | I   | packet | `n`    |
 | O   | packet | `n-16` |
-AESEncodePacket
+
+## Related
+
+[AESEncodePacket](AESEncodePacket.md)

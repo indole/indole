@@ -16,3 +16,7 @@ AES Encode with `AES-128-CFB` or `AES-256-CFB`
 | --- | ------ | ------ |
 | I   | packet | `n`    |
 | O   | packet | `n+16` |
+
+## Related
+
+[AESDecodePacket](AESDecodePacket.md)
