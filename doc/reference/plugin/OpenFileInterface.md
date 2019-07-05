@@ -1,6 +1,6 @@
-# CreateFileInterface
+# OpenFileInterface
 
-Create a file for writing data
+Open a file for reading data
 
 ## Args
 
@@ -18,4 +18,4 @@ Create a file for writing data
 
 ## Related
 
-[OpenFileInterface](OpenFileInterface.md)
+[CreateFileInterface](CreateFileInterface.md)

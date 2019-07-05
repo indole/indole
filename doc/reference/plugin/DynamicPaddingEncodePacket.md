@@ -14,7 +14,10 @@ Padding a packet with dybamic size of zero
 
 | --- | type   | size             |
 | --- | ------ | ---------------- |
-| I   | stream | `n`              |
-| O   | stream | `[n+8, n+Size+8]` |
+| I   | packet | `n`              |
+| O   | packet | `[n+8, n+Size+8]` |
 
 ## Related
+
+[StaticPaddingEncodePacket](StaticPaddingEncodePacket.md)
+[PaddingDecodePacket](PaddingDecodePacket.md)
