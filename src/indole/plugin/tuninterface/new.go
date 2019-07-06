@@ -6,6 +6,8 @@ package tuninterface
 int32_t setup_tun_device(char *ifname);
 int32_t set_ip(char *name, char *ip_addr, char *netmask);
 int32_t set_mtu(char *name,int32_t mtu);
+int32_t add_route_cidr(char *name, char *cidr);
+int32_t del_route_cidr(char *name, char *cidr);
 */
 import "C"
 import (
@@ -47,10 +49,11 @@ func (thisptr *Args) Build() io.ReadWriteCloser {
 
 // Args ...
 type Args struct {
-	Device  string `xml:"Device"`
-	Ipaddr  string `xml:"Ipaddr"`
-	Netmask string `xml:"Netmask"`
-	Mtu     int    `xml:"Mtu"`
+	Device  string   `xml:"Device"`
+	Ipaddr  string   `xml:"Ipaddr"`
+	Netmask string   `xml:"Netmask"`
+	Mtu     int      `xml:"Mtu"`
+	Route   []string `xml:"Route"`
 }
 
 func init() {
