@@ -8,6 +8,7 @@ int32_t set_ip(char *name, char *ip_addr, char *netmask);
 int32_t set_mtu(char *name,int32_t mtu);
 int32_t add_route_cidr(char *name, char *cidr);
 int32_t del_route_cidr(char *name, char *cidr);
+
 */
 import "C"
 import (
@@ -29,15 +30,6 @@ func (thisptr *Args) Build() io.ReadWriteCloser {
 		C.free(unsafe.Pointer(cdev))
 		C.free(unsafe.Pointer(cip))
 		C.free(unsafe.Pointer(cnetmask))
-		// When the device shut down,routing table which was related by interface will delete automatically
-		// for _, s := range thisptr.Route {
-		// 	croute := C.CString(s)
-		// 	delroute := C.del_route_cidr(cdev, croute)
-		// 	if delroute < 0 {
-		// 		log.Println("plugin", "tuninterface", "delroute", "del route failed", s)
-		// 	}
-		// 	C.free(unsafe.Pointer(croute))
-		// }
 	}()
 	tunfd := C.setup_tun_device(cdev)
 	setip := C.set_ip(
@@ -49,14 +41,6 @@ func (thisptr *Args) Build() io.ReadWriteCloser {
 		cdev,
 		cmtu,
 	)
-	for _, s := range thisptr.Route {
-		croute := C.CString(s)
-		addroute := C.add_route_cidr(cdev, croute)
-		if addroute < 0 {
-			log.Println("plugin", "tuninterface", "addroute", "add route failed", s)
-		}
-		C.free(unsafe.Pointer(croute))
-	}
 	if tunfd < 0 {
 		log.Println("plugin", "tuninterface", "New", "set up failed")
 		return nil
@@ -78,7 +62,6 @@ type Args struct {
 	Ipaddr  string   `xml:"Ipaddr"`
 	Netmask string   `xml:"Netmask"`
 	Mtu     int      `xml:"Mtu"`
-	Route   []string `xml:"Route"`
 }
 
 func init() {
