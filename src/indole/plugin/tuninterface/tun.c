@@ -59,6 +59,7 @@ int32_t setup_dev(char *ifname, short flags) {
   strncpy(ifr.ifr_name, ifname, IFNAMSIZ);
   if ((err = ioctl(fd, TUNSETIFF, &ifr)) < 0) {
     close(fd);
+    perror("your device name was used by another program,please try another name");
     return err;
   }
   strncpy(ifname, ifr.ifr_name, IFNAMSIZ);
@@ -86,14 +87,14 @@ int32_t up_device(char *name) {
   if (ioctl(sockfd, SIOCGIFFLAGS, &ifr) < 0) {
     perror("ioctl SIOCGIFFLAGS fails!\n");
     close(sockfd);
-    return -1;
+    return -2;
   }
 
   ifr.ifr_flags |= IFF_UP;
   if (ioctl(sockfd, SIOCSIFFLAGS, &ifr) < 0) {
     perror("ioctl SIOCSIFFLAGS fails!\n");
     close(sockfd);
-    return -1;
+    return -3;
   }
 
   close(sockfd);

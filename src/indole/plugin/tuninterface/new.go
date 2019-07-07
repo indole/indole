@@ -57,8 +57,16 @@ func (thisptr *Args) Build() io.ReadWriteCloser {
 		}
 		C.free(unsafe.Pointer(croute))
 	}
-	if tunfd < 0 || setip < 0 || setmtu < 0 {
-		log.Println("plugin", "tuninterface", "New", "set up tundevice")
+	if tunfd < 0 {
+		log.Println("plugin", "tuninterface", "New", "set up failed")
+		return nil
+	}
+	if setip < 0 {
+		log.Println("plugin", "tuninterface", "set_ip", "set ip failed")
+		return nil
+	}
+	if setmtu < 0 {
+		log.Println("plugin", "tuninterface", "set mtu", "set mtu failed")
 		return nil
 	}
 	return &TUNInterface{os.NewFile(uintptr(tunfd), thisptr.Device)}
