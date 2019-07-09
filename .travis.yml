@@ -14,7 +14,7 @@ matrix:
                 - golang
               update: true
         - os: windows
-          language: node_js
+          language: go
           env: TOXENV=py32
 
 compiler:
@@ -28,6 +28,8 @@ before_install:
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo apt-get -qq update; fi
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo apt-get install -y --no-install-recommends gcc golang; fi
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew upgrade go          ; fi
+
+install:
 
 script:
   - env GOPATH=$(pwd) go build indole
