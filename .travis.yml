@@ -13,9 +13,10 @@ go:
   - 1.11.x
   - master
 
-compiler:
-  - gcc
-  - clang
+matrix:
+  exclude:
+  - go: master
+    os: windows 
 
 #services:
 #  - docker
