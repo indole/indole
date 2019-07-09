@@ -32,6 +32,11 @@ int32_t del_route(char *name, char *ip_addr, char *netmask) {
   perror("tun/tap is not support on windows");
   return -1;
 }
+
+int32_t set_mtu(char *name, int32_t mtu) {
+  return -1;
+}
+
 #endif
 
 #ifdef __linux__
