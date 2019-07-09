@@ -4,6 +4,8 @@ os:
   - osx
   - windows
 
+dist: xenial
+
 compiler:
   - gcc
   - clang
