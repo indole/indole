@@ -1,20 +1,18 @@
 language: go
 
-matrix:
-    include:
-        - os: linux
-          dist: xenial
-          env: TOXENV=py32
-        - os: osx
-          env: TOXENV=py33
-          addons:
-            homebrew:
-              packages:
-                - gcc
-                - golang
-              update: true
-        - os: windows
-          env: TOXENV=py32
+os: 
+  - linux
+  - windows
+  - osx
+
+dist: xenial
+
+addons:
+  homebrew:
+    packages:
+      - gcc
+      - golang
+    update: true
 
 go:
   - 1.x
@@ -31,7 +29,7 @@ services:
 
 before_install:
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo apt-get -qq update; fi
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo apt-get install -y --no-install-recommends gcc golang; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo apt-get install -y --no-install-recommends gcc; fi
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew upgrade go          ; fi
 
 install: true
