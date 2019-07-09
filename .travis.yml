@@ -1,10 +1,21 @@
 language: generic
-os: 
-  - linux
-  - osx
-  - windows
 
-dist: xenial
+matrix:
+    include:
+        - os: linux
+          dist: xenial
+          env: TOXENV=py32
+        - os: osx
+          env: TOXENV=py33
+          addons:
+            homebrew:
+              packages:
+                - gcc
+                - golang
+              update: true
+        - os: windows
+          language: node_js
+          env: TOXENV=py32
 
 compiler:
   - gcc
@@ -13,16 +24,10 @@ compiler:
 services:
   - docker
 
-addons:
-  homebrew:
-    packages:
-    - gcc
-    - golang
-    update: true
-
 before_install:
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo apt-get -qq update; fi
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo apt-get install -y --no-install-recommends gcc golang; fi
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew upgrade go          ; fi
 
 script:
   - env GOPATH=$(pwd) go build indole
