@@ -1,0 +1,42 @@
+language: go
+
+os: 
+  - linux
+  - windows
+  - osx
+
+dist: xenial
+
+go:
+  - 1.x
+  - "1.10"
+  - 1.11.x
+  - master
+
+matrix:
+  exclude:
+  - go: master
+    os: windows 
+
+#services:
+#  - docker
+
+#before_install:
+#  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo apt-get install -y --no-install-recommends gcc; fi
+
+install: true
+
+script:
+  - env GOPATH=$(pwd) go build indole
+
+deploy:
+  - deploy:
+    provider: releases
+    api_key: $GITHUB_TOKEN
+    file: 
+    - indole-linux.zip
+    - indole-windows.zip
+    - windole-windows.zip
+    skip_cleanup: true
+    on:
+      tags: true
