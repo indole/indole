@@ -28,7 +28,7 @@ before_install:
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo apt-get install -y --no-install-recommends gcc golang; fi
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew upgrade go          ; fi
 
-install:
+install: true
 
 script:
   - env GOPATH=$(pwd) go build indole
