@@ -1,11 +1,17 @@
 #ifdef __linux__
-#include <string.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/ioctl.h>
+#include <arpa/inet.h>
 #include <fcntl.h>
 #include <linux/if.h>
 #include <linux/if_tun.h>
+#include <net/route.h>
+#include <netinet/in.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <string.h>
+#include <sys/ioctl.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <unistd.h>
 #endif
 
 int tun_alloc(char *dev)

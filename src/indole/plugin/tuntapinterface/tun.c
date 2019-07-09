@@ -1,44 +1,6 @@
 #include <stdint.h>
 #include <stdio.h>
 
-#ifdef __MINGW64__
-#include <stdio.h>
-#include <stdlib.h>
-int32_t setup_tap_device(char *ifname) {
-  perror("tun/tap is not support on windows");
-  return -1;
-}
-
-int32_t setup_tun_device(char *ifname) {
-  perror("tun/tap is not support on windows");
-  return -1;
-}
-
-int32_t up_device(char *name) {
-  perror("tun/tap is not support on windows");
-  return -1;
-}
-
-int32_t set_ip(char *name, char *ip_addr, char *netmask) {
-  perror("tun/tap is not support on windows");
-  return -1;
-}
-int32_t add_route(char *name, char *ip_addr, char *netmask) {
-  perror("tun/tap is not support on windows");
-  return -1;
-}
-
-int32_t del_route(char *name, char *ip_addr, char *netmask) {
-  perror("tun/tap is not support on windows");
-  return -1;
-}
-
-int32_t set_mtu(char *name, int32_t mtu) {
-  return -1;
-}
-
-#endif
-
 #ifdef __linux__
 #include <arpa/inet.h>
 #include <fcntl.h>
@@ -247,6 +209,43 @@ int32_t del_route_cidr(char *name, char *cidr) {
     return -1;
   }
   del_route(name, ip, mask);
+}
+
+#else
+
+#include <stdio.h>
+#include <stdlib.h>
+int32_t setup_tap_device(char *ifname) {
+  perror("tun/tap is not support on windows");
+  return -1;
+}
+
+int32_t setup_tun_device(char *ifname) {
+  perror("tun/tap is not support on windows");
+  return -1;
+}
+
+int32_t up_device(char *name) {
+  perror("tun/tap is not support on windows");
+  return -1;
+}
+
+int32_t set_ip(char *name, char *ip_addr, char *netmask) {
+  perror("tun/tap is not support on windows");
+  return -1;
+}
+int32_t add_route(char *name, char *ip_addr, char *netmask) {
+  perror("tun/tap is not support on windows");
+  return -1;
+}
+
+int32_t del_route(char *name, char *ip_addr, char *netmask) {
+  perror("tun/tap is not support on windows");
+  return -1;
+}
+
+int32_t set_mtu(char *name, int32_t mtu) {
+  return -1;
 }
 
 #endif
