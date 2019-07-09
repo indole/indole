@@ -1,5 +1,5 @@
 language: generic
-dist: trusty
+dist: xenial
 
 before_install:
   - sudo apt-get -qq update
