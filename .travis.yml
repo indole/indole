@@ -1,4 +1,4 @@
-language: generic
+language: go
 
 matrix:
     include:
@@ -14,7 +14,6 @@ matrix:
                 - golang
               update: true
         - os: windows
-          language: go
           env: TOXENV=py32
 
 compiler:
