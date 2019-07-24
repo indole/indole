@@ -30,6 +30,8 @@ Indole Documentation tells you how to use INDOLE.
 
 1. [AESDecodePacket](reference/plugin/AESDecodePacket.md)
 2. [AESEncodePacket](reference/plugin/AESEncodePacket.md)
+2. [Base64DecodeStream](reference/plugin/Base64DecodeStream.md)
+2. [Base64EncodeStream](reference/plugin/Base64EncodeStream.md)
 3. [CreateFileInterface](reference/plugin/CreateFileInterface.md)
 4. [DynamicPaddingEncodePacket](reference/plugin/DynamicPaddingEncodePacket.md)
 5. [DynamicUDPInterface](reference/plugin/DynamicUDPInterface.md)
