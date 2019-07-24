@@ -1,6 +1,6 @@
-# HexDecodeStream
+# Base64DecodeStream
 
-Hex decode
+Base64 decode
 
 ## Args
 
@@ -13,8 +13,8 @@ Hex decode
 | --- | type   | size   |
 | --- | ------ | ------ |
 | I   | stream | `n`    |
-| O   | stream | `n/2` |
+| O   | stream | `n*3/4` |
 
 ## Related
 
-[HexEncodeStream](HexEncodeStream.md)
+[Base64EncodeStream](Base64EncodeStream.md)

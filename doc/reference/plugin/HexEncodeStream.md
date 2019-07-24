@@ -13,7 +13,7 @@ Hex encode
 | --- | type   | size  |
 | --- | ------ | ----- |
 | I   | stream | `n`   |
-| O   | stream | `n/2` |
+| O   | stream | `n*2` |
 
 ## Related
 
