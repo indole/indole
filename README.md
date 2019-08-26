@@ -25,6 +25,18 @@ obabel indole.sdf -O indole.png -d --title ""
 1. [gcc](https://gcc.gnu.org/)
 2. [golang](https://golang.org/)
 
+## Install
+
+For Archlinux
+```sh
+yay -S indole
+```
+
+For debian or other linux distribution used dpkg as it's package manager
+```sh
+
+```
+
 ## Build
 
 ```sh
